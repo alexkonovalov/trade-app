@@ -18,6 +18,7 @@ import {
   DropdownMenu,
   DropdownItem } from "reactstrap";
 import Items from "./components/Items"
+import Chat from "./components/Chat"
 
 /* import './App.scss'; */
 
@@ -90,6 +91,7 @@ const App = ({ history }: AppProps) => {
           <>
           <Route path="/:category" exact component={Items} />
           <Route path="/:category/:id" component={Items} />
+          <Route path="/chat" component={Chat} />
           </>
           {/* <Items /> */}
 {/*           <div>
