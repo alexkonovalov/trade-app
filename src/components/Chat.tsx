@@ -18,16 +18,22 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Card, CardImg, CardText, CardBody,
-  CardTitle, CardSubtitle
+  Card, CardImg, CardText, CardBody, Media,
+  CardTitle, CardSubtitle, Input, InputGroup, InputGroupAddon
 } from "reactstrap";
 import { bindActionCreators, Action, ActionCreatorsMapObject, Dispatch } from "redux";
 import { Item, ItemCategories, State } from '../core/model'
+import Message, { messageType } from './Message'
 import { Actions, ActionCreators, EffectActions } from "../store/actions";
 
+import styled from 'styled-components';
+
+const MessageUl = styled.ul`
+  list-style: none;
+  padding: 0;
+`
 
 interface ItemsProps {
-  
   items: Array<Item>,
   match: match<ItemsRouteParams>
 }
@@ -48,7 +54,16 @@ const Chat = (props : ItemsProps) => {
 
   return (
       <div>
-          CHATT
+        <MessageUl>
+          <Message type={'received'} message={'tere bro'} imgSrc={'https://pbs.twimg.com/profile_images/585938291330912256/5Z02N-AP_400x400.jpg'} />
+          <Message type={'sent'} message={'tere yo'} imgSrc={'https://pbs.twimg.com/profile_images/585938291330912256/5Z02N-AP_400x400.jpg'} />
+          <Message type={'received'} message={'ciao mate'} imgSrc={'https://pbs.twimg.com/profile_images/585938291330912256/5Z02N-AP_400x400.jpg'} />
+          <Message type={'sent'} message={'preved medved you'} imgSrc={'https://pbs.twimg.com/profile_images/585938291330912256/5Z02N-AP_400x400.jpg'} />
+        </MessageUl>
+        <InputGroup>
+          <Input type={'textarea'} placeholder={'Enter your message here'} />
+          <InputGroupAddon addonType="append"><Button color="secondary">Send</Button></InputGroupAddon>
+        </InputGroup>
       </div>
     );
   }
