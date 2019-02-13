@@ -1,7 +1,11 @@
 import React from 'react';
+import { State } from '../core/model'
+import { connect } from 'react-redux';
 
-const TradeDetails: React.SFC = () => (
-  <div>Trade Details</div>
+const mapStateToProps = (state: { reducer: State }) => ({ coinPrice : state.reducer.coinPrice });
+
+const TradeDetails: React.SFC<ReturnType<typeof mapStateToProps>> = (props) => (
+  <div>Trade Details {props.coinPrice}</div>
 )
 
-export default TradeDetails
+export default connect(mapStateToProps)(TradeDetails)

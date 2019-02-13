@@ -17,6 +17,7 @@ export const initalState: State = {
     category: 'alive'
   }],
   viewAs: 'seller',
+  coinPrice : undefined,
   chats: {
     trade1: [
       {sender: 'buyer', content: 'tere yo'},
@@ -32,15 +33,13 @@ export const initalState: State = {
     ]}
 };
 
-export const reducer : Reducer<State, ReduxActions> = /* (ss: State = initalState, aa) => ({
-  items:[],
-  chats:{}
-})
- */
-
-
-(state: State = initalState, action: ReduxActions ) => {
+export const reducer : Reducer<State, ReduxActions> = (state: State = initalState, action: ReduxActions ) => {
   switch (action.type) {
+    case (ACTION_KEYS.UPDATE_COIN_PRICE) : {
+      const newState = {...state, coinPrice: action.payload}
+      console.log('update coin price', newState)
+      return newState;
+    }
     case (ACTION_KEYS.ADD_ITEM) : {
       return {...state, items: [...state.items, action.payload]};
     }

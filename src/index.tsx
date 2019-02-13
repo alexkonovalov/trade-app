@@ -15,6 +15,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const store = configureStore()
 // store.dispatch(Actions.fetchPersons())
 
+store.dispatch(Actions.pollCoinPrice())
+
 ReactDOM.render(
   <Provider store={store}><App history={history}/></Provider>, document.getElementById('root'));
 
