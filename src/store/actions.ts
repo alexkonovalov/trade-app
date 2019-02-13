@@ -6,11 +6,13 @@ import { State, Item, TradeMessage } from "../core/model";
 
 export enum ACTION_KEYS {
   ADD_ITEM = "add_item",
-  ADD_MESSAGE = "add_message"
+  ADD_MESSAGE = "add_message",
+  SWITCH_VIEW = "switch_user"
 };
 
 export const ReduxActions = {
   addItem: (item: Item) => createAction(ACTION_KEYS.ADD_ITEM, item),
+  switchView: () => createAction(ACTION_KEYS.SWITCH_VIEW),
   addMessage: (message: {tradeId: string, message: TradeMessage }) => createAction(ACTION_KEYS.ADD_MESSAGE, message)
 };
 

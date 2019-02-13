@@ -3,19 +3,20 @@ import { Reducer } from 'redux'
 import { ReduxActions, ACTION_KEYS } from "./actions";
 
 export const initalState: State = {
-  items: [/* {
-    id: 'tere',
-    category: 'dead'
+  items: [{
+    id: 'trade1',
+    category: 'alive'
   },{
     id: 'ciao',
     category: 'alive'
   },{
-    id: 'poko',
+    id: 'trade2',
     category: 'alive'
   },{
     id: 'hontas',
     category: 'alive'
-  } */],
+  }],
+  viewAs: 'seller',
   chats: {
     trade1: [
       {sender: 'buyer', content: 'tere yo'},
@@ -42,6 +43,9 @@ export const reducer : Reducer<State, ReduxActions> = /* (ss: State = initalStat
   switch (action.type) {
     case (ACTION_KEYS.ADD_ITEM) : {
       return {...state, items: [...state.items, action.payload]};
+    }
+    case (ACTION_KEYS.SWITCH_VIEW) : {
+      return {...state, viewAs: state.viewAs === 'buyer' ? 'seller' : 'buyer' }
     }
     case (ACTION_KEYS.ADD_MESSAGE) : {
       return {...state, chats: { ...state.chats,

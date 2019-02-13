@@ -13,10 +13,15 @@ import {
   Nav,
   NavItem,
   NavLink,
+  Container,
+  Row,
+  Col,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem } from "reactstrap";
+import TradeDetails from './components/TradeDetails'
+import UserToggle from './components/UserToggle'
 import Items from "./components/Items"
 import Chat from "./components/Chat"
 
@@ -75,7 +80,7 @@ interface AppProps {
 const App = ({ history }: AppProps) => {
   return (
 
-      <div className="App">
+      <div >
         <Navbar color="dark" dark expand="md" key="nav">
             <NavbarBrand href="/" className="mr-auto">react-ts-bs-redux-starter</NavbarBrand>
             <Collapse isOpen={false} navbar>
@@ -86,12 +91,27 @@ const App = ({ history }: AppProps) => {
               </Nav>
             </Collapse>
         </Navbar>
-        <header className="App-header">
         <ConnectedRouter history={history}>
           <>
-          <Route path="/:category" exact component={Items} />
-          <Route path="/:category/:id" component={Items} />
-          <Route path="/chat/:tradeId" component={Chat} />
+          <Container fluid>
+            <Row style={{ 'margin-top': '1rem', 'margin-bottom': '1rem' }}>
+              <Col>
+                <UserToggle/>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs="4">
+                <Route path="/:category" exact component={Items} />
+                <Route path="/:category/:id" component={Items} />               
+              </Col>
+              <Col xs="4">
+                <Route path="/:category/:tradeId" component={Chat} />
+              </Col>
+              <Col xs="4">
+                <Route path="/:category/:tradeId" component={TradeDetails} />
+              </Col>
+            </Row>
+          </Container>
           </>
           {/* <Items /> */}
 {/*           <div>
@@ -129,7 +149,6 @@ const App = ({ history }: AppProps) => {
           >
             Learn React
           </a>
-        </header>
       </div>
   );
 }

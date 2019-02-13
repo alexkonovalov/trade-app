@@ -42,6 +42,7 @@ type ViewItem = Item & { isSelected: boolean }
 
 const mapStateToProps = (state: { reducer: State }) => ({ 
   items : state.reducer.items,
+  viewMode: state.reducer.viewAs,
   chats : state.reducer.chats
  });
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators(Actions, dispatch);
@@ -53,12 +54,12 @@ type ChatRouteParams = {
 const Chat: React.SFC<ReturnType<typeof mapStateToProps> & typeof Actions & { match: match<ChatRouteParams> }>  = (props) => {
 
   const [ newMessage, setNewMessage] = useState('');
-  const { chats, match: { params }, addMessage } = props 
+  const { chats, viewMode, match: { params }, addMessage } = props 
   const messages = params.tradeId && chats[params.tradeId]
 
   const send = () => {
     setNewMessage('')
-    addMessage({ tradeId: params.tradeId, message: { content: newMessage, sender: 'buyer' }});
+    addMessage({ tradeId: params.tradeId, message: { content: newMessage, sender: viewMode }});
   }
 
   const handleMessageInputChange = (e:  ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +69,7 @@ const Chat: React.SFC<ReturnType<typeof mapStateToProps> & typeof Actions & { ma
   return (
       <div>
         { messages && messages.map(message => <MessageUl>
-            <Message  type={message.sender === 'buyer' ? 'received' : 'sent'}
+            <Message  type={message.sender === viewMode ? 'sent' : 'received' }
                       message={message.content}
                       imgSrc={'https://pbs.twimg.com/profile_images/585938291330912256/5Z02N-AP_400x400.jpg'} />
           </MessageUl>)

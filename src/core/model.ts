@@ -16,7 +16,8 @@ export type TradeMessage = Message & {
 export type Chats = { [tradeId: string] : TradeMessage[] }
 export interface State {
   items: Item[];
-  chats: Chats
+  viewAs: 'buyer' | 'seller';
+  chats: Chats;
 }
 
 export type ItemResponse = {
