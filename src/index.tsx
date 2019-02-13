@@ -13,7 +13,7 @@ import { createAction } from './store/actions.helpers';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const store = configureStore()
-store.dispatch(Actions.fetchPersons())
+// store.dispatch(Actions.fetchPersons())
 
 ReactDOM.render(
   <Provider store={store}><App history={history}/></Provider>, document.getElementById('root'));

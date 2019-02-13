@@ -91,7 +91,7 @@ const App = ({ history }: AppProps) => {
           <>
           <Route path="/:category" exact component={Items} />
           <Route path="/:category/:id" component={Items} />
-          <Route path="/chat" component={Chat} />
+          <Route path="/chat/:tradeId" component={Chat} />
           </>
           {/* <Items /> */}
 {/*           <div>

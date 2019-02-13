@@ -2,14 +2,16 @@ import { Dispatch, Action } from "redux";
 import { ThunkAction } from 'redux-thunk';
 import itemsClient from "../core/client";
 import { createAction, ActionsUnion, ActionCreatorsUnion } from "./actions.helpers";
-import { State, Item } from "../core/model";
+import { State, Item, TradeMessage } from "../core/model";
 
 export enum ACTION_KEYS {
-  ADD_ITEM = "add_item"
+  ADD_ITEM = "add_item",
+  ADD_MESSAGE = "add_message"
 };
 
 export const ReduxActions = {
-  addItem : (item: Item) => createAction(ACTION_KEYS.ADD_ITEM, item),
+  addItem: (item: Item) => createAction(ACTION_KEYS.ADD_ITEM, item),
+  addMessage: (message: {tradeId: string, message: TradeMessage }) => createAction(ACTION_KEYS.ADD_MESSAGE, message)
 };
 
 export const EffectActions = {
@@ -17,7 +19,6 @@ export const EffectActions = {
       itemsClient
         .fetchItems()
         .then((items) => {
-
           items
             .map((item: Item)=> dispatch(ReduxActions.addItem(item))) 
             //todo consider adding bulk add for perf improvements

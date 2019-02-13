@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, ChangeEvent } from 'react';
 import logo from './logo.svg';
 import { connect } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router'
@@ -22,7 +22,7 @@ import {
   CardTitle, CardSubtitle, Input, InputGroup, InputGroupAddon
 } from "reactstrap";
 import { bindActionCreators, Action, ActionCreatorsMapObject, Dispatch } from "redux";
-import { Item, ItemCategories, State } from '../core/model'
+import { Item, ItemCategories, State, Chats } from '../core/model'
 import Message, { messageType } from './Message'
 import { Actions, ActionCreators, EffectActions } from "../store/actions";
 
@@ -34,35 +34,48 @@ const MessageUl = styled.ul`
 `
 
 interface ItemsProps {
-  items: Array<Item>,
-  match: match<ItemsRouteParams>
+  chats: Chats,
+  match: match<ChatRouteParams>
 }
 
 type ViewItem = Item & { isSelected: boolean }
 
-const mapStateToProps = (state: { reducer: State }) => ({ items : state.reducer.items });
+const mapStateToProps = (state: { reducer: State }) => ({ 
+  items : state.reducer.items,
+  chats : state.reducer.chats
+ });
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators(Actions, dispatch);
 
-type ItemsRouteParams = {
-  id: string,
-  category: ItemCategories
+type ChatRouteParams = {
+  tradeId: string
 }
 
-const Chat = (props : ItemsProps) => {
+const Chat: React.SFC<ReturnType<typeof mapStateToProps> & typeof Actions & { match: match<ChatRouteParams> }>  = (props) => {
 
-  const { items, match: { params } } = props 
+  const [ newMessage, setNewMessage] = useState('');
+  const { chats, match: { params }, addMessage } = props 
+  const messages = params.tradeId && chats[params.tradeId]
+
+  const send = () => {
+    setNewMessage('')
+    addMessage({ tradeId: params.tradeId, message: { content: newMessage, sender: 'buyer' }});
+  }
+
+  const handleMessageInputChange = (e:  ChangeEvent<HTMLInputElement>) => {
+    setNewMessage(e.target.value)
+  }
 
   return (
       <div>
-        <MessageUl>
-          <Message type={'received'} message={'tere bro'} imgSrc={'https://pbs.twimg.com/profile_images/585938291330912256/5Z02N-AP_400x400.jpg'} />
-          <Message type={'sent'} message={'tere yo'} imgSrc={'https://pbs.twimg.com/profile_images/585938291330912256/5Z02N-AP_400x400.jpg'} />
-          <Message type={'received'} message={'ciao mate'} imgSrc={'https://pbs.twimg.com/profile_images/585938291330912256/5Z02N-AP_400x400.jpg'} />
-          <Message type={'sent'} message={'preved medved you'} imgSrc={'https://pbs.twimg.com/profile_images/585938291330912256/5Z02N-AP_400x400.jpg'} />
-        </MessageUl>
+        { messages && messages.map(message => <MessageUl>
+            <Message  type={message.sender === 'buyer' ? 'received' : 'sent'}
+                      message={message.content}
+                      imgSrc={'https://pbs.twimg.com/profile_images/585938291330912256/5Z02N-AP_400x400.jpg'} />
+          </MessageUl>)
+        }
         <InputGroup>
-          <Input type={'textarea'} placeholder={'Enter your message here'} />
-          <InputGroupAddon addonType="append"><Button color="secondary">Send</Button></InputGroupAddon>
+          <Input type={'textarea'} placeholder={'Enter your message here'} value={newMessage} onChange={handleMessageInputChange} />
+          <InputGroupAddon addonType="append"><Button color="secondary" onClick={send}>Send</Button></InputGroupAddon>
         </InputGroup>
       </div>
     );

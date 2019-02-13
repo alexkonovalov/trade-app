@@ -26,11 +26,11 @@ import { Item, ItemCategories, State } from '../core/model'
 import { Actions, ActionCreators, EffectActions } from "../store/actions";
 
 
-interface ItemsProps {
+// interface ItemsProps {
   
-  items: Array<Item>,
-  match: match<ItemsRouteParams>
-}
+//   items: Array<Item>,
+//   match: match<ItemsRouteParams>
+// }
 
 type ViewItem = Item & { isSelected: boolean }
 
@@ -42,11 +42,13 @@ type ItemsRouteParams = {
   category: ItemCategories
 }
 
-const Items = (props : ItemsProps) => {
+const Items : React.SFC<ReturnType<typeof mapStateToProps> & typeof Actions & { match: match<ItemsRouteParams> }> =
+  (props/*  : ItemsProps */) => {
 
-  const { items, match: { params } } = props 
+  const { items, addMessage, match: { params } } = props 
 
   const { category, id } = params;
+
 
   const shownItems: Array<ViewItem> = items
     .filter(item => item.category === category)
