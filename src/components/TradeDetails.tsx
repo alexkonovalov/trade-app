@@ -4,8 +4,15 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = (state: { reducer: State }) => ({ coinPrice : state.reducer.coinPrice });
 
-const TradeDetails: React.SFC<ReturnType<typeof mapStateToProps>> = (props) => (
-  <div>Trade Details {props.coinPrice}</div>
+type ComponentOwnProperties = {
+  tradeId: string
+}
+
+const TradeDetails: React.FunctionComponent<ComponentOwnProperties & ReturnType<typeof mapStateToProps>> = (props) => (
+  <>
+    <div>Trade Details {props.coinPrice}</div>
+    <div>Trade HASH {props.tradeId}</div>
+  </>
 )
 
 export default connect(mapStateToProps)(TradeDetails)

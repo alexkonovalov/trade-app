@@ -1,89 +1,55 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import { connect } from 'react-redux';
+import React from 'react';
 import { ConnectedRouter } from 'connected-react-router'
 import { History } from 'history'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Route, match } from 'react-router-dom';
+
 import {
   Collapse,
   Navbar,
-  Button,
-  NavbarToggler,
   NavbarBrand,
   Nav,
   NavItem,
   NavLink,
   Container,
   Row,
-  Col,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem } from "reactstrap";
+  Col
+} from 'reactstrap';
+
+import { ItemCategories } from './core/model'
 import TradeDetails from './components/TradeDetails'
 import UserToggle from './components/UserToggle'
 import Items from "./components/Items"
 import Chat from "./components/Chat"
 
-/* import './App.scss'; */
-
-const mapStateToProps = (state :any) => ({
-  ...state
- })
-
-const Home = () => (
-  <div>
-    <h2>Home</h2>
-  </div>
-);
-
-const About = () => (
-  <div>
-    <h2>About</h2>
-  </div>
-);
-
-const Topics = ({ match }: any) => (
-  <div>
-    <h2>Topics <Button color="danger">Danger!</Button> </h2>
-    <ul>
-      <li>
-        <Link to={`${match.url}/rendering`}>Rendering with React</Link>
-      </li>
-      <li>
-        <Link to={`${match.url}/components`}>Components</Link>
-      </li>
-      <li>
-        <Link to={`${match.url}/props-v-state`}>Props v. State</Link>
-      </li>
-    </ul>
-
-    <Route path={`${match.url}/:topicId`} component={Topic} />
-    <Route
-      exact
-      path={match.url}
-      render={() => <h3>Please select a topic.</h3>}
-    />
-  </div>
-);
-
-const Topic = ({ match }: any) => (
-  <div>
-    <h3>{match.params.topicId}</h3>
-  </div>
-);
-
 interface AppProps {
   history: History;
 }
 
-const App = ({ history }: AppProps) => {
-  return (
+type ItemsRouteParams = {
+  tradeId: string,
+  category: ItemCategories
+}
 
-      <div >
+const RoutedTrades : React.FunctionComponent<{ match: match<ItemsRouteParams> }> = (props) => {
+  const { match: { params: { category, tradeId } } } = props 
+  return <><Col xs="4">
+      <Items selectedTradeId={tradeId} category={category} />
+    </Col> 
+    <Col xs="4">
+      { tradeId && <Chat tradeId={tradeId} /> }
+    </Col>
+    <Col xs="4">
+      { tradeId && <TradeDetails tradeId={tradeId} /> }
+    </Col>
+  </>         
+}
+
+const App: React.FunctionComponent<AppProps> = ({ history }) => {
+  return (
+      <>
         <Navbar color="dark" dark expand="md" key="nav">
-            <NavbarBrand href="/" className="mr-auto">react-ts-bs-redux-starter</NavbarBrand>
-            <Collapse isOpen={false} navbar>
+            <NavbarBrand href="/">react-ts-bs-redux-starter</NavbarBrand>
+            <Collapse navbar>
               <Nav navbar>
                 <NavItem>
                   <NavLink href="https://github.com/alexkonovalov">Github</NavLink>
@@ -100,58 +66,15 @@ const App = ({ history }: AppProps) => {
               </Col>
             </Row>
             <Row>
-              <Col xs="4">
-                <Route path="/:category" exact component={Items} />
-                <Route path="/:category/:id" component={Items} />               
-              </Col>
-              <Col xs="4">
-                <Route path="/:category/:tradeId" component={Chat} />
-              </Col>
-              <Col xs="4">
-                <Route path="/:category/:tradeId" component={TradeDetails} />
-              </Col>
+              <Route path="/:category" exact component={RoutedTrades} />
+              <Route path="/:category/:tradeId" component={RoutedTrades} />               
             </Row>
           </Container>
           </>
-          {/* <Items /> */}
-{/*           <div>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/about">About</Link>
-              </li>
-              <li>
-                <Link to="/topics">Topics</Link>
-              </li>
-            </ul>
-
-            <hr />
-
-            <Route exact path="/" component={Home} />
-            <Route path="/about" component={About} />
-            <Route path="/topics" component={Topics} /> 
-          </div>*/} 
         </ConnectedRouter>
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            {
-              JSON.stringify({ sdfsdf : 'foofofo'})
-            }
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-      </div>
+      </>
   );
 }
 
 
-export default connect(mapStateToProps)(App);
+export default App;

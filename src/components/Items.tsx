@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import logo from './logo.svg';
 import { connect } from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router'
-import { History } from 'history'
-import { BrowserRouter as Router, Route, Link, match } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 import {
   Collapse,
@@ -21,40 +19,30 @@ import {
   Card, CardImg, CardText, CardBody,
   CardTitle, CardSubtitle
 } from "reactstrap";
-import { bindActionCreators, Action, ActionCreatorsMapObject, Dispatch } from "redux";
+import { bindActionCreators, Action, Dispatch } from "redux";
 import { Item, ItemCategories, State } from '../core/model'
-import { Actions, ActionCreators, EffectActions } from "../store/actions";
-
-
-// interface ItemsProps {
-  
-//   items: Array<Item>,
-//   match: match<ItemsRouteParams>
-// }
+import { Actions } from "../store/actions";
 
 type ViewItem = Item & { isSelected: boolean }
 
 const mapStateToProps = (state: { reducer: State }) => ({ items : state.reducer.items });
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators(Actions, dispatch);
 
-type ItemsRouteParams = {
-  id: string,
+type ComponentOwnProps = {
+  selectedTradeId: string,
   category: ItemCategories
 }
 
-const Items : React.SFC<ReturnType<typeof mapStateToProps> & typeof Actions & { match: match<ItemsRouteParams> }> =
-  (props/*  : ItemsProps */) => {
+const Items : React.FunctionComponent<ComponentOwnProps & ReturnType<typeof mapStateToProps> & typeof Actions> =
+  (props) => {
 
-  const { items, addMessage, match: { params } } = props 
-
-  const { category, id } = params;
-
+  const { items, selectedTradeId, category } = props 
 
   const shownItems: Array<ViewItem> = items
     .filter(item => item.category === category)
     .map((item) => ({
       ...item,
-      isSelected: item.id === id
+      isSelected: item.id === selectedTradeId
     }))
 
   return (

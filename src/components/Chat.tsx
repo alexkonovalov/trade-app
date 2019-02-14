@@ -1,9 +1,5 @@
-import React, { Component, useState, ChangeEvent } from 'react';
-import logo from './logo.svg';
+import React, { useState, ChangeEvent } from 'react';
 import { connect } from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router'
-import { History } from 'history'
-import { BrowserRouter as Router, Route, Link, match } from 'react-router-dom';
 import classnames from 'classnames';
 import {
   Collapse,
@@ -33,11 +29,6 @@ const MessageUl = styled.ul`
   padding: 0;
 `
 
-interface ItemsProps {
-  chats: Chats,
-  match: match<ChatRouteParams>
-}
-
 type ViewItem = Item & { isSelected: boolean }
 
 const mapStateToProps = (state: { reducer: State }) => ({ 
@@ -47,19 +38,21 @@ const mapStateToProps = (state: { reducer: State }) => ({
  });
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators(Actions, dispatch);
 
-type ChatRouteParams = {
+type ComponentOwnProperties = {
   tradeId: string
 }
 
-const Chat: React.SFC<ReturnType<typeof mapStateToProps> & typeof Actions & { match: match<ChatRouteParams> }>  = (props) => {
+const Chat: React.FunctionComponent<ComponentOwnProperties & ReturnType<typeof mapStateToProps> & typeof Actions>  = (props) => {
+
+  const { tradeId } = props 
 
   const [ newMessage, setNewMessage] = useState('');
-  const { chats, viewMode, match: { params }, addMessage } = props 
-  const messages = params.tradeId && chats[params.tradeId]
+  const { chats, viewMode, addMessage } = props 
+  const messages = tradeId && chats[tradeId]
 
   const send = () => {
     setNewMessage('')
-    addMessage({ tradeId: params.tradeId, message: { content: newMessage, sender: viewMode }});
+    addMessage({ tradeId, message: { content: newMessage, sender: viewMode }});
   }
 
   const handleMessageInputChange = (e:  ChangeEvent<HTMLInputElement>) => {
