@@ -13,8 +13,6 @@ import { createAction } from './store/actions.helpers';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const store = configureStore()
-// store.dispatch(Actions.fetchPersons())
-
 store.dispatch(Actions.pollCoinPrice())
 
 ReactDOM.render(

@@ -1,8 +1,8 @@
-export type ItemCategories = 'dead' | 'alive';
+export type TradeStatus = 'paid' | 'unpaid';
 
-export type Item = { 
+export type Trade = { 
   id: string;
-  category: ItemCategories;
+  status: TradeStatus;
 }
 
 export type Message = {
@@ -15,14 +15,14 @@ export type TradeMessage = Message & {
 
 export type Chats = { [tradeId: string] : TradeMessage[] }
 export interface State {
-  items: Item[];
+  trades: Trade[];
   viewAs: 'buyer' | 'seller';
   coinPrice: number | undefined,
   chats: Chats;
 }
 
-export type ItemResponse = {
-  data: Item[];
+export type TradesResponse = {
+  data: Trade[];
 }
 
 export type CoinResponse = {

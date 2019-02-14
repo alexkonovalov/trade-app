@@ -1,15 +1,15 @@
 import axios from "axios";
 
-import { ItemResponse, CoinResponse } from "./model";
+import { TradesResponse, CoinResponse } from "./model";
 
-const ITEMS_ENDPOINT = "https://my.api.mockaroo.com/items.json";
+const TRADES_ENDPOINT = "https://my.api.mockaroo.com/items.json";
 const COIN_PRICE_ENDPOINT = "https://api.coindesk.com/v1/bpi/currentprice/USD.json"
 const apiKey = '186acfb0';
 
-const itemsClient = {
-  fetchItems : () => axios
-    .get(`${ITEMS_ENDPOINT}`, {headers: {'X-API-Key': apiKey}})
-    .then((response: ItemResponse) => {
+const client = {
+  fetchTrades : () => axios
+    .get(`${TRADES_ENDPOINT}`, {headers: {'X-API-Key': apiKey}})
+    .then((response: TradesResponse) => {
       return response.data
     }),
   getCoinPrice : () => axios
@@ -20,4 +20,4 @@ const itemsClient = {
 };
 
 
-export default itemsClient
+export default client

@@ -18,7 +18,7 @@ import {
   CardTitle, CardSubtitle, Input, InputGroup, InputGroupAddon
 } from "reactstrap";
 import { bindActionCreators, Action, ActionCreatorsMapObject, Dispatch } from "redux";
-import { Item, ItemCategories, State, Chats } from '../core/model'
+import { Trade, TradeStatus, State, Chats } from '../core/model'
 import Message, { messageType } from './Message'
 import { Actions, ActionCreators, EffectActions } from "../store/actions";
 
@@ -29,10 +29,10 @@ const MessageUl = styled.ul`
   padding: 0;
 `
 
-type ViewItem = Item & { isSelected: boolean }
+type ViewItem = Trade & { isSelected: boolean }
 
 const mapStateToProps = (state: { reducer: State }) => ({ 
-  items : state.reducer.items,
+  trades : state.reducer.trades,
   viewMode: state.reducer.viewAs,
   chats : state.reducer.chats
  });

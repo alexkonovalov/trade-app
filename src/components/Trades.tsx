@@ -20,61 +20,55 @@ import {
   CardTitle, CardSubtitle
 } from "reactstrap";
 import { bindActionCreators, Action, Dispatch } from "redux";
-import { Item, ItemCategories, State } from '../core/model'
+import { Trade, TradeStatus, State } from '../core/model'
 import { Actions } from "../store/actions";
 
-type ViewItem = Item & { isSelected: boolean }
+type ViewTrade = Trade & { isSelected: boolean }
 
-const mapStateToProps = (state: { reducer: State }) => ({ items : state.reducer.items });
+const mapStateToProps = (state: { reducer: State }) => ({ items : state.reducer.trades });
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators(Actions, dispatch);
 
 type ComponentOwnProps = {
   selectedTradeId: string,
-  category: ItemCategories
+  category: TradeStatus
 }
 
-const Items : React.FunctionComponent<ComponentOwnProps & ReturnType<typeof mapStateToProps> & typeof Actions> =
+const Trades : React.FunctionComponent<ComponentOwnProps & ReturnType<typeof mapStateToProps> & typeof Actions> =
   (props) => {
 
   const { items, selectedTradeId, category } = props 
 
-  const shownItems: Array<ViewItem> = items
-    .filter(item => item.category === category)
-    .map((item) => ({
-      ...item,
-      isSelected: item.id === selectedTradeId
+  const shownTrades: Array<ViewTrade> = items
+    .filter(item => item.status === category)
+    .map((trade) => ({
+      ...trade,
+      isSelected: trade.id === selectedTradeId
     }))
 
   return (
       <div>
           <Nav tabs>
           <NavItem>
-            <Link to="/alive">
-              <NavLink
-                className={classnames({ active: category === 'alive' })}
-                onClick={() => { console.log('tab 1 click') }}
-              >
-                Alive 
+            <Link to="/unpaid">
+              <NavLink className={classnames({ active: category === 'unpaid' })}>
+                Not Paid
               </NavLink>
             </Link>
           </NavItem>
           <NavItem>
-            <Link to="/dead">
-              <NavLink
-                className={classnames({ active: category === 'dead' })}
-                onClick={() => { console.log('tab 2 click') }}
-              >
-                dead 
+            <Link to="/paid">
+              <NavLink className={classnames({ active: category === 'paid' })}>
+                Paid 
               </NavLink>
             </Link>
           </NavItem>
         </Nav>
-          { shownItems.map(item => (<Card {...item.isSelected && { color: "primary" }} > 
+          { shownTrades.map(trade => (<Card {...trade.isSelected && { color: "primary" }} > 
              <CardBody>
-               <CardTitle>{item.id}</CardTitle>
+               <CardTitle>{trade.id}</CardTitle>
                <CardSubtitle>Card subtitle</CardSubtitle>
                <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-               <Link to={`/${item.category}/${item.id}`}><Button>Select</Button></Link>
+               <Link to={`/${trade.status}/${trade.id}`}><Button>Select</Button></Link>
              </CardBody>
            </Card>)
            )
@@ -84,4 +78,4 @@ const Items : React.FunctionComponent<ComponentOwnProps & ReturnType<typeof mapS
   }
   
   
-export default connect(mapStateToProps, mapDispatchToProps)(Items);
+export default connect(mapStateToProps, mapDispatchToProps)(Trades);

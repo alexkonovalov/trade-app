@@ -22,7 +22,7 @@ import {
   CardTitle, CardSubtitle
 } from "reactstrap";
 import { bindActionCreators, Action, ActionCreatorsMapObject, Dispatch } from "redux";
-import { Item, ItemCategories, State } from '../core/model'
+import { Trade, TradeStatus, State } from '../core/model'
 import { Actions, ActionCreators, EffectActions } from "../store/actions";
 
 import styled from 'styled-components';

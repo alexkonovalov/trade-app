@@ -3,18 +3,18 @@ import { Reducer } from 'redux'
 import { ReduxActions, ACTION_KEYS } from "./actions";
 
 export const initalState: State = {
-  items: [{
+  trades: [{
     id: 'trade1',
-    category: 'alive'
+    status: 'unpaid'
   },{
     id: 'ciao',
-    category: 'alive'
+    status: 'unpaid'
   },{
     id: 'trade2',
-    category: 'alive'
+    status: 'unpaid'
   },{
     id: 'hontas',
-    category: 'alive'
+    status: 'unpaid'
   }],
   viewAs: 'seller',
   coinPrice : undefined,
@@ -41,7 +41,7 @@ export const reducer : Reducer<State, ReduxActions> = (state: State = initalStat
       return newState;
     }
     case (ACTION_KEYS.ADD_ITEM) : {
-      return {...state, items: [...state.items, action.payload]};
+      return {...state, trades: [...state.trades, action.payload]};
     }
     case (ACTION_KEYS.SWITCH_VIEW) : {
       return {...state, viewAs: state.viewAs === 'buyer' ? 'seller' : 'buyer' }
