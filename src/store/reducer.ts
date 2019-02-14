@@ -1,21 +1,22 @@
-import { State} from "../core/model";
+import { State, TradeStatus } from "../core/model";
 import { Reducer } from 'redux'
 import { ReduxActions, ACTION_KEYS } from "./actions";
 
+const sampleTrade = {
+  id: 'trade1',
+  status: 'unpaid' as TradeStatus,
+  price: 300,
+  paymentMethod: 'PayPal',
+  hasUnreadMessage: true,
+  buyer: {
+    name: 'Harshampur Maharaji',
+    rating: { positive: 33, negative: -50 },
+    imgSrc: 'https://pbs.twimg.com/profile_images/585938291330912256/5Z02N-AP_400x400.jpg'
+  }
+}
+
 export const initalState: State = {
-  trades: [{
-    id: 'trade1',
-    status: 'unpaid'
-  },{
-    id: 'ciao',
-    status: 'unpaid'
-  },{
-    id: 'trade2',
-    status: 'unpaid'
-  },{
-    id: 'hontas',
-    status: 'unpaid'
-  }],
+  trades: [sampleTrade, {...sampleTrade, id: 'trade2'}],
   viewAs: 'seller',
   coinPrice : undefined,
   chats: {

@@ -15,10 +15,8 @@ import {
   Col
 } from 'reactstrap';
 
-import TradeDetails from './components/TradeDetails'
+import Trades from './components/Trades'
 import UserToggle from './components/UserToggle'
-import Trades from "./components/Trades"
-import Chat from "./components/Chat"
 
 interface AppProps {
   history: History;
@@ -27,20 +25,6 @@ interface AppProps {
 type TradesRouteParams = {
   tradeId: string,
   category: 'paid' | 'unpaid'
-}
-
-const RoutedTrades : React.FunctionComponent<{ match: match<TradesRouteParams> }> = (props) => {
-  const { match: { params: { category, tradeId } } } = props 
-  return <><Col xs="4">
-      <Trades selectedTradeId={tradeId} category={category} />
-    </Col> 
-    <Col xs="4">
-      { tradeId && <Chat tradeId={tradeId} /> }
-    </Col>
-    <Col xs="4">
-      { tradeId && <TradeDetails tradeId={tradeId} /> }
-    </Col>
-  </>         
 }
 
 const App: React.FunctionComponent<AppProps> = ({ history }) => {
@@ -65,8 +49,8 @@ const App: React.FunctionComponent<AppProps> = ({ history }) => {
               </Col>
             </Row>
             <Row>
-              <Route path="/:category" exact component={RoutedTrades} />
-              <Route path="/:category/:tradeId" component={RoutedTrades} />               
+              <Route path="/:category" exact component={Trades} />
+              <Route path="/:category/:tradeId" component={Trades} />               
             </Row>
           </Container>
           </>

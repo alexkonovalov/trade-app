@@ -1,8 +1,21 @@
 export type TradeStatus = 'paid' | 'unpaid';
 
+export type BuyerInfo = {
+  name: string;
+  imgSrc: string;
+  rating: {
+    positive: number;
+    negative: number;
+  }
+}
+
 export type Trade = { 
   id: string;
   status: TradeStatus;
+  price: number;
+  paymentMethod: string;
+  hasUnreadMessage: boolean;
+  buyer: BuyerInfo;
 }
 
 export type Message = {

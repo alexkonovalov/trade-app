@@ -1,81 +1,46 @@
 import React from 'react';
-import logo from './logo.svg';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import classnames from 'classnames';
-import {
-  Collapse,
-  Navbar,
-  Button,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Card, CardImg, CardText, CardBody,
-  CardTitle, CardSubtitle
-} from "reactstrap";
 import { bindActionCreators, Action, Dispatch } from "redux";
-import { Trade, TradeStatus, State } from '../core/model'
-import { Actions } from "../store/actions";
+import { Col } from 'reactstrap';
 
-type ViewTrade = Trade & { isSelected: boolean }
+import { State } from '../core/model'
+import { Actions } from '../store/actions';
 
-const mapStateToProps = (state: { reducer: State }) => ({ items : state.reducer.trades });
+const mapStateToProps = (state: { reducer: State }) => ({
+  items : state.reducer.trades,
+  btcPrice: state.reducer.coinPrice
+});
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators(Actions, dispatch);
 
-type ComponentOwnProps = {
-  selectedTradeId: string,
-  category: TradeStatus
+import { match } from 'react-router-dom';
+
+import TradeDetails from './presentational/TradeDetails'
+import TradeList from './TradeList'
+import TradeChat from './TradeChat'
+
+type TradesRouteParams = {
+  tradeId: string,
+  category: 'paid' | 'unpaid'
 }
 
-const Trades : React.FunctionComponent<ComponentOwnProps & ReturnType<typeof mapStateToProps> & typeof Actions> =
-  (props) => {
+const Trades : React.FunctionComponent<ReturnType<typeof mapStateToProps> & { match: match<TradesRouteParams> }> = (props) => {
 
-  const { items, selectedTradeId, category } = props 
+  const { items, btcPrice, match: { params: { category, tradeId: selectedTradeId } } } = props
 
-  const shownTrades: Array<ViewTrade> = items
-    .filter(item => item.status === category)
-    .map((trade) => ({
-      ...trade,
-      isSelected: trade.id === selectedTradeId
-    }))
+  const selectedTrade = selectedTradeId && items
+    .filter((trade) => trade.id === selectedTradeId)[0]
 
-  return (
-      <div>
-          <Nav tabs>
-          <NavItem>
-            <Link to="/unpaid">
-              <NavLink className={classnames({ active: category === 'unpaid' })}>
-                Not Paid
-              </NavLink>
-            </Link>
-          </NavItem>
-          <NavItem>
-            <Link to="/paid">
-              <NavLink className={classnames({ active: category === 'paid' })}>
-                Paid 
-              </NavLink>
-            </Link>
-          </NavItem>
-        </Nav>
-          { shownTrades.map(trade => (<Card {...trade.isSelected && { color: "primary" }} > 
-             <CardBody>
-               <CardTitle>{trade.id}</CardTitle>
-               <CardSubtitle>Card subtitle</CardSubtitle>
-               <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-               <Link to={`/${trade.status}/${trade.id}`}><Button>Select</Button></Link>
-             </CardBody>
-           </Card>)
-           )
-          }
-      </div>
-    );
-  }
-  
-  
+  return <>
+    <Col xs="4">
+      <TradeList selectedTradeId={selectedTradeId} category={category} />
+    </Col> 
+    <Col xs="4">
+      { selectedTradeId && <TradeChat tradeId={selectedTradeId} /> }
+    </Col>
+    <Col xs="4">
+      { selectedTrade && <TradeDetails trade={selectedTrade} coinPrice={btcPrice}/> }
+    </Col>
+  </>         
+}
+
 export default connect(mapStateToProps, mapDispatchToProps)(Trades);
