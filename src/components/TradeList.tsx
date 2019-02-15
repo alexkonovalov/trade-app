@@ -22,8 +22,8 @@ import {
 } from 'reactstrap';
 import { bindActionCreators, Action, Dispatch } from 'redux';
 import { Trade, TradeStatus, State } from '../core/model'
+import route from '../core/routes'
 import { Actions } from '../store/actions';
-
 
 type ViewTrade = Trade & { isSelected: boolean };
 
@@ -54,14 +54,14 @@ const TradeList : React.FunctionComponent<ComponentOwnProps & ReturnType<typeof 
       <div>
           <Nav tabs>
           <NavItem>
-            <Link to='/unpaid'>
+            <Link to={route.tradeCategory.getPath('unpaid')}>
               <NavLink className={classnames({ active: category === 'unpaid' })}>
                 Not Paid
               </NavLink>
             </Link>
           </NavItem>
           <NavItem>
-            <Link to='/paid'>
+            <Link to={route.tradeCategory.getPath('paid')}>
               <NavLink className={classnames({ active: category === 'paid' })}>
                 Paid 
               </NavLink>
@@ -72,7 +72,7 @@ const TradeList : React.FunctionComponent<ComponentOwnProps & ReturnType<typeof 
               trade={trade}
               btcPrice={bitcoinPrice}
               isSelected={trade.isSelected}
-              linkPath={`/${trade.status}/${trade.id}`} />
+              linkPath={route.trade.getPath(trade.status, trade.id)} />
           )}
       </div>
     );

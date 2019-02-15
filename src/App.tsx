@@ -2,6 +2,7 @@ import React from 'react';
 import { ConnectedRouter } from 'connected-react-router'
 import { History } from 'history'
 import { Route, match } from 'react-router-dom';
+import route from './core/routes';
 
 import {
   Collapse,
@@ -20,11 +21,6 @@ import UserToggle from './components/UserToggle'
 
 interface AppProps {
   history: History;
-}
-
-type TradesRouteParams = {
-  tradeId: string,
-  category: 'paid' | 'unpaid'
 }
 
 const App: React.FunctionComponent<AppProps> = ({ history }) => {
@@ -49,8 +45,8 @@ const App: React.FunctionComponent<AppProps> = ({ history }) => {
               </Col>
             </Row>
             <Row>
-              <Route path="/:category" exact component={Trades} />
-              <Route path="/:category/:tradeId" component={Trades} />               
+              <Route path={route.tradeCategory.path} exact component={Trades} />
+              <Route path={route.trade.path} component={Trades} />
             </Row>
           </Container>
           </>
@@ -58,6 +54,5 @@ const App: React.FunctionComponent<AppProps> = ({ history }) => {
       </>
   );
 }
-
 
 export default App;
