@@ -17,7 +17,6 @@ import {
 } from 'reactstrap';
 
 import Trades from './components/Trades'
-import UserToggle from './components/UserToggle'
 
 interface AppProps {
   history: History;
@@ -40,11 +39,6 @@ const App: React.FunctionComponent<AppProps> = ({ history }) => {
           <>
           <Container fluid>
             <Row style={{ 'margin-top': '1rem', 'margin-bottom': '1rem' }}>
-              <Col>
-                <UserToggle/>
-              </Col>
-            </Row>
-            <Row>
               <Route path={route.tradeCategory.path} exact component={Trades} />
               <Route path={route.trade.path} component={Trades} />
             </Row>

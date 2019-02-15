@@ -44,6 +44,11 @@ export const reducer : Reducer<State, ReduxActions> = (state: State = initalStat
     case (ACTION_KEYS.ADD_ITEM) : {
       return {...state, trades: [...state.trades, action.payload]};
     }
+    case (ACTION_KEYS.DELETE_TRADE) : {
+      return {...state, trades: [
+        ...state.trades.filter(trade => trade.id !== action.payload)
+      ]};
+    }
     case (ACTION_KEYS.SWITCH_VIEW) : {
       return {...state, viewAs: state.viewAs === 'buyer' ? 'seller' : 'buyer' }
     }

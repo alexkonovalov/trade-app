@@ -6,6 +6,8 @@ import { State, Trade, TradeMessage } from "../core/model";
 
 export enum ACTION_KEYS {
   ADD_ITEM = "add_item",
+  DELETE_TRADE = 'delete_trade',
+  ARCHIVE_TRADE = 'archive_trade',
   UPDATE_COIN_PRICE = "update_coin_price",
   ADD_MESSAGE = "add_message",
   SWITCH_VIEW = "switch_user"
@@ -14,6 +16,8 @@ export enum ACTION_KEYS {
 export const ReduxActions = {
   addItem: (item: Trade) => createAction(ACTION_KEYS.ADD_ITEM, item),
   switchView: () => createAction(ACTION_KEYS.SWITCH_VIEW),
+  archiveTrade: () => createAction(ACTION_KEYS.ARCHIVE_TRADE),
+  deleteTrade: (tradeId: string) => createAction(ACTION_KEYS.DELETE_TRADE, tradeId),
   updateCoinPrice: (price: number) => createAction(ACTION_KEYS.UPDATE_COIN_PRICE, price),
   addMessage: (message: {tradeId: string, message: TradeMessage }) => createAction(ACTION_KEYS.ADD_MESSAGE, message)
 };
