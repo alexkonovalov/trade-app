@@ -41,6 +41,12 @@ export const reducer : Reducer<State, ReduxActions> = (state: State = initalStat
       console.log('update coin price', newState)
       return newState;
     }
+    case (ACTION_KEYS.MARK_TRADE_MESSAGES_AS_READ) : {
+      return { ...state, trades: state.trades.map(
+        trade => trade.id === action.payload ? { ...trade, hasUnreadMessage: false } : trade
+        )
+      }
+    }
     case (ACTION_KEYS.ADD_ITEM) : {
       return {...state, trades: [...state.trades, action.payload]};
     }
@@ -53,12 +59,18 @@ export const reducer : Reducer<State, ReduxActions> = (state: State = initalStat
       return {...state, viewAs: state.viewAs === 'buyer' ? 'seller' : 'buyer' }
     }
     case (ACTION_KEYS.ADD_MESSAGE) : {
-      return {...state, chats: { ...state.chats,
+      return {...state,
+        chats: { ...state.chats,
           [action.payload.tradeId]:[
             ...state.chats[action.payload.tradeId],
             action.payload.message
           ]
-        }
+        },
+        ...action.payload.message.sender === 'buyer' ? {
+          trades: state.trades.map(
+            trade => trade.id === action.payload.tradeId ? { ...trade, hasUnreadMessage: true } : trade
+          )
+        } : {}
       };
     }
     default: return state;

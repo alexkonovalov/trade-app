@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Action, Dispatch } from "redux";
 
@@ -18,9 +18,14 @@ type ComponentOwnProperties = {
 };
 
 const TradeChat: React.FunctionComponent<ComponentOwnProperties & ReturnType<typeof mapStateToProps> & typeof Actions>  = (props) => {
-  const { tradeId } = props; 
+  const { tradeId, chats, viewMode, addMessage, markTradeMessagesAsRead } = props;
 
-  const { chats, viewMode, addMessage } = props;
+  useEffect(() => {
+    if (viewMode === 'seller') {
+      markTradeMessagesAsRead(tradeId)
+    }
+  });
+
   const messages = tradeId
     ? chats[tradeId].map(tradeMessage => ({ 
       content: tradeMessage.content,
