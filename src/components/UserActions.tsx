@@ -20,14 +20,14 @@ type ComponentOwnProps = {
 }
 
 const UserActions: React.FunctionComponent<ComponentOwnProps & ReturnType<typeof mapStateToProps> & typeof Actions> = (props) => {
-  const { tradeId, viewMode, switchView, deleteTrade } = props;
+  const { tradeId, viewMode, switchView, deleteTrade, releaseTrade } = props;
 
   return <>
     <ActionButton color='primary' onClick={switchView}>
       Switch to {viewMode === 'buyer' ? 'Seller' : 'Buyer'}'s View
     </ActionButton>
     { tradeId && <>
-        <ActionButton color='success' onClick={switchView} >
+        <ActionButton color='success' onClick={() => releaseTrade(tradeId)} >
           Release Bitcoins
         </ActionButton>
         <ActionButton color="danger" onClick={() => deleteTrade(tradeId)}>

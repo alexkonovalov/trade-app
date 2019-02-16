@@ -22,7 +22,7 @@ import {
 } from 'reactstrap';
 import { bindActionCreators, Action, Dispatch } from 'redux';
 import { Trade, TradeStatus, State } from '../core/model'
-import { compareTradesByNewMessage, compareTradesByStatus} from '../core/sorters'
+import { byUnseenMessageFirst, byPaidFirst, byIsNotReleased } from '../core/sorters'
 import route from '../core/routes'
 import { Actions } from '../store/actions';
 
@@ -42,17 +42,17 @@ type ComponentOwnProps = {
 const TradeList : React.FunctionComponent<ComponentOwnProps & ReturnType<typeof mapStateToProps> & typeof Actions> =
   (props) => {
 
-  const { items, selectedTradeId, filter, bitcoinPrice } = props ;
+  const { items, selectedTradeId, filter, bitcoinPrice } = props;
 
-  const getCompareFunction = () => {
+  const getSortByFunction = () => {
     switch (filter) {
-      case ('paid'): return compareTradesByStatus;
-      case ('notseen'): return compareTradesByNewMessage
+      case ('paid'): return byPaidFirst;
+      case ('notseen'): return byUnseenMessageFirst
     }
   }
 
   const shownTrades: Array<ViewTrade> = items
-    .sort(getCompareFunction())
+    .sort((a, b) => byIsNotReleased(a,b) || getSortByFunction()(a,b))
     .map((trade) => ({
       ...trade,
       isSelected: trade.id === selectedTradeId

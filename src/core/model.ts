@@ -15,6 +15,7 @@ export type Trade = {
   price: number;
   paymentMethod: string;
   hasUnreadMessage: boolean;
+  isReleased: boolean;
   buyer: BuyerInfo;
 }
 

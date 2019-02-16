@@ -6,6 +6,7 @@ const sampleTrade = {
   id: 'trade1',
   status: 'unpaid' as TradeStatus,
   price: 300,
+  isReleased: true,
   paymentMethod: 'PayPal 1',
   hasUnreadMessage: false,
   buyer: {
@@ -18,6 +19,7 @@ const sampleTrade2 = {
   id: 'trade2',
   status: 'unpaid' as TradeStatus,
   price: 300,
+  isReleased: false,
   paymentMethod: 'PayPal 2',
   hasUnreadMessage: false,
   buyer: {
@@ -31,6 +33,7 @@ const sampleTrade3 = {
   id: 'trade3',
   status: 'paid' as TradeStatus,
   price: 300,
+  isReleased: false,
   paymentMethod: 'PayPal 3',
   hasUnreadMessage: false,
   buyer: {
@@ -44,6 +47,7 @@ const sampleTrade4 = {
   id: 'trade4',
   status: 'unpaid' as TradeStatus,
   price: 300,
+  isReleased: false,
   paymentMethod: 'PayPal 4',
   hasUnreadMessage: true,
   buyer: {
@@ -92,9 +96,8 @@ export const reducer : Reducer<State, ReduxActions> = (state: State = initalStat
       return newState;
     }
     case (ACTION_KEYS.MARK_TRADE_MESSAGES_AS_READ) : {
-      return { ...state, trades: state.trades.map(
-        trade => trade.id === action.payload ? { ...trade, hasUnreadMessage: false } : trade
-        )
+      return { ...state, trades: state.trades.map(trade =>
+        trade.id === action.payload ? { ...trade, hasUnreadMessage: false } : trade)
       }
     }
     case (ACTION_KEYS.ADD_ITEM) : {
@@ -104,6 +107,12 @@ export const reducer : Reducer<State, ReduxActions> = (state: State = initalStat
       return {...state, trades: [
         ...state.trades.filter(trade => trade.id !== action.payload)
       ]};
+    }
+    case (ACTION_KEYS.RELEASE_TRADE) : {
+      return { ...state, trades: state.trades.map(
+        trade => trade.id === action.payload ? { ...trade, isReleased: true } : trade
+        )
+      }
     }
     case (ACTION_KEYS.SWITCH_VIEW) : {
       return {...state, viewAs: state.viewAs === 'buyer' ? 'seller' : 'buyer' }

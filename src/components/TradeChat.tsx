@@ -29,7 +29,7 @@ const TradeChat: React.FunctionComponent<ComponentOwnProperties & ReturnType<typ
   const messages = tradeId
     ? chats[tradeId].map(tradeMessage => ({ 
       content: tradeMessage.content,
-      type: tradeMessage.sender === viewMode ? 'sent' : 'received' as 'sent' | 'received'
+      type: tradeMessage.sender === viewMode ?  'sent' : 'received' as 'sent' | 'received'
     }))
     : [];
 
