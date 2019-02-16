@@ -1,17 +1,17 @@
 const route = {
-  tradeCategory: {
-    path: '/:category',
-    getPath: (category: 'paid' | 'unpaid') => `/${category}`
+  tradeList: {
+    path: '/:filter',
+    getPath: (filter: 'notseen' | 'paid') => `/${filter}`
   },
   trade: {
-    path: '/:category/:tradeId',
-    getPath: (category: 'paid' | 'unpaid', tradeId: string) => `/${category}/${tradeId}`
+    path: '/:filter/:tradeId',
+    getPath: (filter: 'notseen' | 'paid', tradeId: string) => `/${filter}/${tradeId}`
   }
 }
 
 export type ITradeRouteParams = {
   tradeId: string,
-  category: 'paid' | 'unpaid'
+  filter: 'notseen' | 'paid'
 }
 
 export default route

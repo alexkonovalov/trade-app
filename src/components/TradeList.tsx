@@ -22,6 +22,7 @@ import {
 } from 'reactstrap';
 import { bindActionCreators, Action, Dispatch } from 'redux';
 import { Trade, TradeStatus, State } from '../core/model'
+import { compareTradesByNewMessage, compareTradesByStatus} from '../core/sorters'
 import route from '../core/routes'
 import { Actions } from '../store/actions';
 
@@ -35,16 +36,23 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators(Ac
 
 type ComponentOwnProps = {
   selectedTradeId: string;
-  category: TradeStatus;
+  filter: 'notseen' | 'paid';
 };
 
 const TradeList : React.FunctionComponent<ComponentOwnProps & ReturnType<typeof mapStateToProps> & typeof Actions> =
   (props) => {
 
-  const { items, selectedTradeId, category, bitcoinPrice } = props ;
+  const { items, selectedTradeId, filter, bitcoinPrice } = props ;
+
+  const getCompareFunction = () => {
+    switch (filter) {
+      case ('paid'): return compareTradesByStatus;
+      case ('notseen'): return compareTradesByNewMessage
+    }
+  }
 
   const shownTrades: Array<ViewTrade> = items
-    .filter(item => item.status === category)
+    .sort(getCompareFunction())
     .map((trade) => ({
       ...trade,
       isSelected: trade.id === selectedTradeId
@@ -54,15 +62,15 @@ const TradeList : React.FunctionComponent<ComponentOwnProps & ReturnType<typeof 
       <div>
           <Nav tabs>
           <NavItem>
-            <Link to={route.tradeCategory.getPath('unpaid')}>
-              <NavLink className={classnames({ active: category === 'unpaid' })}>
-                Not Paid
+            <Link to={route.tradeList.getPath('notseen')}>
+              <NavLink className={classnames({ active: filter === 'notseen' })}>
+                Not Seen
               </NavLink>
             </Link>
           </NavItem>
           <NavItem>
-            <Link to={route.tradeCategory.getPath('paid')}>
-              <NavLink className={classnames({ active: category === 'paid' })}>
+            <Link to={route.tradeList.getPath('paid')}>
+              <NavLink className={classnames({ active: filter === 'paid' })}>
                 Paid 
               </NavLink>
             </Link>
@@ -72,7 +80,7 @@ const TradeList : React.FunctionComponent<ComponentOwnProps & ReturnType<typeof 
               trade={trade}
               btcPrice={bitcoinPrice}
               isSelected={trade.isSelected}
-              linkPath={route.trade.getPath(trade.status, trade.id)} />
+              linkPath={route.trade.getPath(filter, trade.id)} />
           )}
       </div>
     );

@@ -39,7 +39,7 @@ const App: React.FunctionComponent<AppProps> = ({ history }) => {
           <>
           <Container fluid>
             <Row style={{ 'margin-top': '1rem', 'margin-bottom': '1rem' }}>
-              <Route path={route.tradeCategory.path} exact component={Trades} />
+              <Route path={route.tradeList.path} exact component={Trades} />
               <Route path={route.trade.path} component={Trades} />
             </Row>
           </Container>

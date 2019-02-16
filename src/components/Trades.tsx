@@ -22,18 +22,18 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators(Ac
 const Trades : React.FunctionComponent<ReturnType<typeof mapStateToProps> & RouteProps<ITradeRouteParams>> = (props) => {
 
   const { items, btcPrice  } = props
-  const { tradeId : selectedTradeId, category } = getRouteParams(props)
+  const { tradeId : selectedTradeId, filter } = getRouteParams(props)
 
   const selectedTrade = selectedTradeId && items
     .filter((trade) => trade.id === selectedTradeId)[0]
 
   if(selectedTradeId && !selectedTrade) {
-    return <Redirect to={routes.tradeCategory.getPath(category)} />
+    return <Redirect to={routes.tradeList.getPath(filter)} />
   }
 
   return <>
     <Col xs="4">
-      <TradeList category={category} selectedTradeId={selectedTradeId} />
+      <TradeList filter={filter} selectedTradeId={selectedTradeId} />
     </Col>
     <Col xs="4">
       { selectedTradeId && <TradeChat tradeId={selectedTradeId} /> }

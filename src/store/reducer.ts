@@ -6,7 +6,45 @@ const sampleTrade = {
   id: 'trade1',
   status: 'unpaid' as TradeStatus,
   price: 300,
-  paymentMethod: 'PayPal',
+  paymentMethod: 'PayPal 1',
+  hasUnreadMessage: false,
+  buyer: {
+    name: 'Harshampur Maharaji',
+    rating: { positive: 33, negative: -50 },
+    imgSrc: 'https://pbs.twimg.com/profile_images/585938291330912256/5Z02N-AP_400x400.jpg'
+  }
+}
+const sampleTrade2 = {
+  id: 'trade2',
+  status: 'unpaid' as TradeStatus,
+  price: 300,
+  paymentMethod: 'PayPal 2',
+  hasUnreadMessage: false,
+  buyer: {
+    name: 'Harshampur Maharaji',
+    rating: { positive: 33, negative: -50 },
+    imgSrc: 'https://pbs.twimg.com/profile_images/585938291330912256/5Z02N-AP_400x400.jpg'
+  }
+}
+
+const sampleTrade3 = {
+  id: 'trade3',
+  status: 'paid' as TradeStatus,
+  price: 300,
+  paymentMethod: 'PayPal 3',
+  hasUnreadMessage: false,
+  buyer: {
+    name: 'Harshampur Maharaji',
+    rating: { positive: 33, negative: -50 },
+    imgSrc: 'https://pbs.twimg.com/profile_images/585938291330912256/5Z02N-AP_400x400.jpg'
+  }
+}
+
+const sampleTrade4 = {
+  id: 'trade4',
+  status: 'unpaid' as TradeStatus,
+  price: 300,
+  paymentMethod: 'PayPal 4',
   hasUnreadMessage: true,
   buyer: {
     name: 'Harshampur Maharaji',
@@ -16,11 +54,23 @@ const sampleTrade = {
 }
 
 export const initalState: State = {
-  trades: [sampleTrade, {...sampleTrade, id: 'trade2'}],
+  trades: [sampleTrade, sampleTrade2, sampleTrade4, sampleTrade3],
   viewAs: 'seller',
   coinPrice : undefined,
   chats: {
     trade1: [
+      {sender: 'buyer', content: 'tere yo'},
+      {sender: 'seller', content: 'tere 1'},
+      {sender: 'seller', content: 'tere 2'},
+      {sender: 'buyer', content: 'tere yo yo'}
+    ],
+    trade3: [
+      {sender: 'buyer', content: 'tere yo'},
+      {sender: 'seller', content: 'tere 1'},
+      {sender: 'seller', content: 'tere 2'},
+      {sender: 'buyer', content: 'tere yo yo'}
+    ],
+    trade4: [
       {sender: 'buyer', content: 'tere yo'},
       {sender: 'seller', content: 'tere 1'},
       {sender: 'seller', content: 'tere 2'},
