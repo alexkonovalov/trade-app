@@ -9,6 +9,7 @@ import {
 } from "reactstrap";
 
 import { Trade } from '../../core/model'
+import { toBtcString } from '../../core/calc.helpers'
 
 type TradeInfoProps = {
   trade: Trade,
@@ -24,7 +25,7 @@ const TradeInfo : React.FunctionComponent<TradeInfoProps> = (props : TradeInfoPr
   <CardBody>
     <CardSubtitle>{trade.buyer.name} is buying</CardSubtitle>
     <CardTitle><b>{trade.paymentMethod}</b></CardTitle>
-    <CardSubtitle>{trade.price} USD ({btcPrice && (trade.price / btcPrice).toPrecision(8) } BTC)</CardSubtitle>
+    <CardSubtitle>{trade.price} USD ({btcPrice && toBtcString(trade.price, btcPrice) } BTC)</CardSubtitle>
     <Link to={linkPath}><Button>Select</Button></Link>
   </CardBody>
 </Card>
