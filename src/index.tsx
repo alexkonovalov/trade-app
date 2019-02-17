@@ -14,6 +14,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const store = configureStore()
 store.dispatch(Actions.pollCoinPrice())
+store.dispatch(Actions.fetchTrades())
 
 ReactDOM.render(
   <Provider store={store}><App history={history}/></Provider>, document.getElementById('root'));

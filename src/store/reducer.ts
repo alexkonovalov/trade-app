@@ -1,91 +1,12 @@
-import { State, TradeStatus } from "../core/model";
+import { State, TradeStatus, TradeMessage } from "../core/model";
 import { Reducer } from 'redux'
 import { ReduxActions, ACTION_KEYS } from "./actions";
 
-const sampleTrade = {
-  id: 'trade1',
-  status: 'unpaid' as TradeStatus,
-  price: 300,
-  isReleased: true,
-  paymentMethod: 'PayPal 1',
-  hasUnreadMessage: false,
-  buyer: {
-    name: 'Harshampur Maharaji',
-    rating: { positive: 33, negative: -50 },
-    imgSrc: 'https://pbs.twimg.com/profile_images/585938291330912256/5Z02N-AP_400x400.jpg'
-  }
-}
-const sampleTrade2 = {
-  id: 'trade2',
-  status: 'unpaid' as TradeStatus,
-  price: 300,
-  isReleased: false,
-  paymentMethod: 'PayPal 2',
-  hasUnreadMessage: false,
-  buyer: {
-    name: 'Harshampur Maharaji',
-    rating: { positive: 33, negative: -50 },
-    imgSrc: 'https://pbs.twimg.com/profile_images/585938291330912256/5Z02N-AP_400x400.jpg'
-  }
-}
-
-const sampleTrade3 = {
-  id: 'trade3',
-  status: 'paid' as TradeStatus,
-  price: 300,
-  isReleased: false,
-  paymentMethod: 'PayPal 3',
-  hasUnreadMessage: false,
-  buyer: {
-    name: 'Harshampur Maharaji',
-    rating: { positive: 33, negative: -50 },
-    imgSrc: 'https://pbs.twimg.com/profile_images/585938291330912256/5Z02N-AP_400x400.jpg'
-  }
-}
-
-const sampleTrade4 = {
-  id: 'trade4',
-  status: 'unpaid' as TradeStatus,
-  price: 300,
-  isReleased: false,
-  paymentMethod: 'PayPal 4',
-  hasUnreadMessage: true,
-  buyer: {
-    name: 'Harshampur Maharaji',
-    rating: { positive: 33, negative: -50 },
-    imgSrc: 'https://pbs.twimg.com/profile_images/585938291330912256/5Z02N-AP_400x400.jpg'
-  }
-}
-
 export const initalState: State = {
-  trades: [sampleTrade, sampleTrade2, sampleTrade4, sampleTrade3],
+  trades: [],
   viewAs: 'seller',
   coinPrice : undefined,
-  chats: {
-    trade1: [
-      {sender: 'buyer', content: 'tere yo'},
-      {sender: 'seller', content: 'tere 1'},
-      {sender: 'seller', content: 'tere 2'},
-      {sender: 'buyer', content: 'tere yo yo'}
-    ],
-    trade3: [
-      {sender: 'buyer', content: 'tere yo'},
-      {sender: 'seller', content: 'tere 1'},
-      {sender: 'seller', content: 'tere 2'},
-      {sender: 'buyer', content: 'tere yo yo'}
-    ],
-    trade4: [
-      {sender: 'buyer', content: 'tere yo'},
-      {sender: 'seller', content: 'tere 1'},
-      {sender: 'seller', content: 'tere 2'},
-      {sender: 'buyer', content: 'tere yo yo'}
-    ],
-    trade2: [
-      {sender: 'buyer', content: 'tere yosss'},
-      {sender: 'buyer', content: 'tere 1sss'},
-      {sender: 'seller', content: 'tere 2ss'},
-      {sender: 'buyer', content: 'tere yo yoss'}
-    ]}
+  chats: {}
 };
 
 export const reducer : Reducer<State, ReduxActions> = (state: State = initalState, action: ReduxActions ) => {
@@ -117,17 +38,50 @@ export const reducer : Reducer<State, ReduxActions> = (state: State = initalStat
     case (ACTION_KEYS.SWITCH_VIEW) : {
       return {...state, viewAs: state.viewAs === 'buyer' ? 'seller' : 'buyer' }
     }
-    case (ACTION_KEYS.ADD_MESSAGE) : {
+    case (ACTION_KEYS.MARK_CHAT_AS_FETCHING) : {
+      const chat = state.chats[action.payload]
+
       return {...state,
         chats: { ...state.chats,
-          [action.payload.tradeId]:[
-            ...state.chats[action.payload.tradeId],
-            action.payload.message
-          ]
+          [action.payload]: {
+            ...chat,
+            isFetching: true
+          }
+        }
+      };
+    }
+    case (ACTION_KEYS.MARK_CHAT_AS_FETCHED) : {
+      const chat = state.chats[action.payload]
+
+      return {...state,
+        chats: { ...state.chats,
+          [action.payload]: {
+            ...chat,
+            isFetching: false
+          }
+        }
+      };
+    }
+    case (ACTION_KEYS.ADD_MESSAGE) : {
+      console.log('!!!!!!!!!state.chats.payload', action.payload)
+      console.log('!!!!!!!!!state.chats', state.chats)
+
+     // const chat = state.chats[action.payload.tradeId]
+      const chat2 : TradeMessage[] = []
+      console.log('!!!!!!!!!state.chats1', state.chats[action.payload.tradeId])
+      console.log('!!!!!!!!!state.chat2', state.chats[action.payload.tradeId])
+      const chat = state.chats[action.payload.tradeId]
+
+      return {...state,
+        chats: { ...state.chats,
+          [action.payload.tradeId]:{
+            ...chat,
+            messages: [ ...chat && chat.messages || [], action.payload.message ]
+          }
         },
         ...action.payload.message.sender === 'buyer' ? {
-          trades: state.trades.map(
-            trade => trade.id === action.payload.tradeId ? { ...trade, hasUnreadMessage: true } : trade
+          trades: state.trades.map(trade =>
+            trade.id === action.payload.tradeId ? { ...trade, hasUnreadMessage: true } : trade
           )
         } : {}
       };

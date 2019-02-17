@@ -16,7 +16,7 @@ export type Trade = {
   paymentMethod: string;
   hasUnreadMessage: boolean;
   isReleased: boolean;
-  buyer: BuyerInfo;
+  buyerInfo: BuyerInfo;
 }
 
 export type Message = {
@@ -27,7 +27,14 @@ export type TradeMessage = Message & {
   sender: 'buyer' | 'seller';
 }
 
-export type Chats = { [tradeId: string] : TradeMessage[] }
+export type Chats = {
+  [tradeId: string] : {
+    messages?: TradeMessage[],
+    isFetching?: boolean
+  }
+  | undefined
+}
+
 export interface State {
   trades: Trade[];
   viewAs: 'buyer' | 'seller';
@@ -37,6 +44,10 @@ export interface State {
 
 export type TradesResponse = {
   data: Trade[];
+}
+
+export type MessagesResponse = {
+  data: TradeMessage[];
 }
 
 export type CoinResponse = {

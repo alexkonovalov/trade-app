@@ -18,16 +18,22 @@ type ComponentOwnProperties = {
 };
 
 const TradeChat: React.FunctionComponent<ComponentOwnProperties & ReturnType<typeof mapStateToProps> & typeof Actions>  = (props) => {
-  const { tradeId, chats, viewMode, addMessage, markTradeMessagesAsRead } = props;
+  const { tradeId, chats, viewMode, addMessage, markTradeMessagesAsRead, fetchMessages } = props;
+
+  const chat = chats[tradeId];
 
   useEffect(() => {
     if (viewMode === 'seller') {
       markTradeMessagesAsRead(tradeId)
     }
+    if (!chats[tradeId]) {
+      console.log('no chatt!!!')
+      fetchMessages(tradeId)
+    }
   });
 
   const messages = tradeId
-    ? chats[tradeId].map(tradeMessage => ({ 
+    ? (chat && chat.messages || []).map(tradeMessage => ({ 
       content: tradeMessage.content,
       type: tradeMessage.sender === viewMode ?  'sent' : 'received' as 'sent' | 'received'
     }))

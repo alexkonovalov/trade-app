@@ -37,7 +37,7 @@ const TradeInfo : React.FunctionComponent<TradeInfoProps> = (props : TradeInfoPr
 
   return <Card {...isSelected && { color: "primary" }} > 
   <CardBody>
-    <CardSubtitle>{trade.buyer.name} is buying</CardSubtitle>
+    <CardSubtitle>{trade.buyerInfo.name} is buying</CardSubtitle>
     <CardTitle><b>
       {trade.paymentMethod}</b>
       {trade.hasUnreadMessage ? <UnreadMessageDot /> : <Dot />}

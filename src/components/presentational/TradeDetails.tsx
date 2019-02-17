@@ -11,7 +11,7 @@ const TradeDetails: React.FunctionComponent<ComponentOwnProperties> = (props) =>
  const { trade, coinPrice } = props;
 
  return <>
-    <div>{trade.buyer.name} is buying</div>
+    <div>{trade.buyerInfo.name} is buying</div>
     <div><b>{trade.paymentMethod}</b></div>
     <div>{trade.price} USD ({coinPrice && toBtcString(trade.price, coinPrice) } BTC)</div>
     <div>Trade Details {props.coinPrice}</div>
