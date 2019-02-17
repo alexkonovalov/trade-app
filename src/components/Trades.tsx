@@ -1,32 +1,36 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Action, Dispatch } from "redux";
-import { Col } from 'reactstrap';
+import { Col, Alert } from 'reactstrap';
 
 import { State } from '../core/model'
 import { Redirect } from 'react-router-dom'
 import routes, { ITradeRouteParams } from '../core/routes'
 import { getRouteParams, RouteProps } from '../core/routes.helpers'
 import { Actions } from '../store/actions';
-import TradeDetails from './presentational/TradeDetails'
-import TradeList from './TradeList'
-import TradeChat from './TradeChat'
-import UserActions from './UserActions'
+import TradeDetails from './presentational/TradeDetails';
+import TradeList from './TradeList';
+import TradeChat from './TradeChat';
+import UserActions from './UserActions';
 
 const mapStateToProps = (state: { reducer: State }) => ({
   items : state.reducer.trades,
-  btcPrice: state.reducer.coinPrice
+  btcPrice: state.reducer.coinPrice,
+  appError: state.reducer.error
 });
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators(Actions, dispatch);
 
 const Trades : React.FunctionComponent<ReturnType<typeof mapStateToProps> & RouteProps<ITradeRouteParams>> = (props) => {
 
-  const { items, btcPrice  } = props
+  const { appError, items, btcPrice  } = props
   const { tradeId : selectedTradeId, filter } = getRouteParams(props)
 
   const selectedTrade = selectedTradeId && items
     .filter((trade) => trade.id === selectedTradeId)[0]
 
+  if(appError) {
+    return <Alert color='danger'>Error: {appError}</Alert>
+  }
   if(selectedTradeId && !selectedTrade) {
     return <Redirect to={routes.tradeList.getPath(filter)} />
   }

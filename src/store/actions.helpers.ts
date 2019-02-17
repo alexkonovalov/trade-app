@@ -1,3 +1,9 @@
+import { ThunkDispatch } from 'redux-thunk'
+import { AnyAction } from "redux";
+
+export type ThunkDispatchFunc<State> = ThunkDispatch<State, undefined, any>
+export type ThunkActionFunc<State> = (...args: any[]) => (dispatch: ThunkDispatchFunc<State>) => Promise<AnyAction | ThunkActionFunc<State>>
+
 export interface Action<T extends string> {
   type: T
 }
@@ -17,3 +23,4 @@ export function createAction<T extends string, P>(type: T, payload: P): ActionWi
 export function createAction(type: string, payload?: any) {
   return payload === undefined ? { type } : { type, payload };
 };
+

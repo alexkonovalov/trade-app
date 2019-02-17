@@ -37,6 +37,7 @@ export type Chats = {
 
 export interface State {
   trades: Trade[];
+  error: string | undefined;
   viewAs: 'buyer' | 'seller';
   coinPrice: number | undefined,
   chats: Chats;

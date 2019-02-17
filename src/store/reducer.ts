@@ -4,6 +4,7 @@ import { ReduxActions, ACTION_KEYS } from "./actions";
 
 export const initalState: State = {
   trades: [],
+  error: undefined,
   viewAs: 'seller',
   coinPrice : undefined,
   chats: {}
@@ -13,7 +14,6 @@ export const reducer : Reducer<State, ReduxActions> = (state: State = initalStat
   switch (action.type) {
     case (ACTION_KEYS.UPDATE_COIN_PRICE) : {
       const newState = {...state, coinPrice: action.payload}
-      console.log('update coin price', newState)
       return newState;
     }
     case (ACTION_KEYS.MARK_TRADE_MESSAGES_AS_READ) : {
@@ -22,7 +22,7 @@ export const reducer : Reducer<State, ReduxActions> = (state: State = initalStat
       }
     }
     case (ACTION_KEYS.ADD_ITEM) : {
-      return {...state, trades: [...state.trades, action.payload]};
+      return {...state, trades: action.payload };
     }
     case (ACTION_KEYS.DELETE_TRADE) : {
       return {...state, trades: [
@@ -37,6 +37,9 @@ export const reducer : Reducer<State, ReduxActions> = (state: State = initalStat
     }
     case (ACTION_KEYS.SWITCH_VIEW) : {
       return {...state, viewAs: state.viewAs === 'buyer' ? 'seller' : 'buyer' }
+    }
+    case (ACTION_KEYS.SET_ERROR) : {
+      return {...state, error: action.payload };
     }
     case (ACTION_KEYS.MARK_CHAT_AS_FETCHING) : {
       const chat = state.chats[action.payload]
@@ -62,14 +65,15 @@ export const reducer : Reducer<State, ReduxActions> = (state: State = initalStat
         }
       };
     }
+    case (ACTION_KEYS.UPDATE_CHAT) : {
+      const { tradeId, messages } = action.payload
+      return { ...state,
+        chats: { ...state.chats,
+          [tradeId] : {...state.chats[tradeId], messages }
+        }
+      }
+    }
     case (ACTION_KEYS.ADD_MESSAGE) : {
-      console.log('!!!!!!!!!state.chats.payload', action.payload)
-      console.log('!!!!!!!!!state.chats', state.chats)
-
-     // const chat = state.chats[action.payload.tradeId]
-      const chat2 : TradeMessage[] = []
-      console.log('!!!!!!!!!state.chats1', state.chats[action.payload.tradeId])
-      console.log('!!!!!!!!!state.chat2', state.chats[action.payload.tradeId])
       const chat = state.chats[action.payload.tradeId]
 
       return {...state,
