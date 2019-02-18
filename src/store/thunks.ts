@@ -1,11 +1,15 @@
 import client from '../core/client';
-import { ActionsUnion, ThunkActionFunc } from './actions.helpers';
-import { ReduxActions } from './actions'
-import { TradesState } from '../core/model';
+import { ActionsUnion } from './actions.helpers';
+import { ThunkAction } from 'redux-thunk';
+import { ReduxActions } from './actions';
+import { RootState } from './root.reducer';
+
+type AppThunkAction = ThunkAction<void, RootState, null, any>;
+type AppThunkActionCreator = (...args: any[]) => AppThunkAction;
 
 export const ThunkActions = (() => {
 
-  const fetchTrades: ThunkActionFunc<TradesState> = () => async (dispatch) => {
+  const fetchTrades: AppThunkActionCreator = () => async (dispatch) => {
     try {
       const trades = await client.fetchTrades()
       return dispatch(ReduxActions.addTrades(trades))
@@ -13,7 +17,7 @@ export const ThunkActions = (() => {
     catch(error) { return dispatch(ReduxActions.setError(error.message)) }
   }
   
-  const fetchMessages: ThunkActionFunc<TradesState> = (tradeId: string) => async (dispatch) => {
+  const fetchMessages: AppThunkActionCreator = (tradeId: string) => async (dispatch) => {
     dispatch(ReduxActions.markChatAsFetching(tradeId));
     try {
       const messages = await client.fetchMessages(tradeId)
@@ -22,7 +26,7 @@ export const ThunkActions = (() => {
     catch(error) { return dispatch(ReduxActions.setError(error.message)) }
   }
 
-  const getCoinPrice: ThunkActionFunc<TradesState> = () => async (dispatch) => {
+  const getCoinPrice: AppThunkActionCreator = () => async (dispatch) => {
      try { 
       const price = await client.getCoinPrice()
       return dispatch(ReduxActions.updateCoinPrice(price))
@@ -30,11 +34,13 @@ export const ThunkActions = (() => {
      catch(error) { return dispatch(ReduxActions.setError(error.message)) }
   }
 
-  const pollCoinPrice: ThunkActionFunc<TradesState> = () => (dispatch) => {
+  const pollCoinPrice: AppThunkActionCreator = () => (dispatch, getState) => {
     dispatch(getCoinPrice());
-    return new Promise<ThunkActionFunc<TradesState>>((resolve) => window.setTimeout(() => {
+    return new Promise<any>((resolve) => window.setTimeout(() => {
+      if(!getState().appState.error) {
         dispatch(pollCoinPrice())
-        resolve();
+      }
+      resolve();
       }, 5000)
     )
   }
