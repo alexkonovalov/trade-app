@@ -28,7 +28,6 @@ const TradeChat: React.FunctionComponent<ComponentOwnProperties & ReturnType<typ
       markTradeMessagesAsRead(tradeId)
     }
     if (!chats[tradeId]) {
-      console.log('no chatt!!!')
       fetchMessages(tradeId)
     }
   });
@@ -39,8 +38,9 @@ const TradeChat: React.FunctionComponent<ComponentOwnProperties & ReturnType<typ
 
   const messages = tradeId
     ? (chat && chat.messages || [])
-      .map<{content: string, type: 'sent' | 'received'}>(tradeMessage => ({ 
+      .map<{content: string, type: 'sent' | 'received', attachedSrc?: string}>(tradeMessage => ({ 
         content: tradeMessage.content,
+        attachedSrc: tradeMessage.attachedSrc,
         type: tradeMessage.sender === viewMode ?  'sent' : 'received',
       }))
     : [];

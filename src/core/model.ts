@@ -21,6 +21,7 @@ export type Trade = {
 
 export type Message = {
   content: string;
+  attachedSrc?: string;
 }
 
 export type TradeMessage = Message & {

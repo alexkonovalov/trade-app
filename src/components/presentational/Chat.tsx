@@ -15,7 +15,7 @@ const MessageUl = styled.ul`
 `
 
 type ComponentOwnProperties = {
-  messages: { content: string, type: messageType }[];
+  messages: { content: string, type: messageType, attachedSrc?: string }[];
   senderImgSrc?: string;
   receiverImgSrc?: string;
   onAddMessage: (messageContent: string) => void;
@@ -40,6 +40,7 @@ const Chat: React.FunctionComponent<ComponentOwnProperties>  = (props) => {
         { messages && messages.map(message => <MessageUl>
             <Message  type={message.type}
                       message={message.content}
+                      attachedSrc={message.attachedSrc}
                       imgSrc={message.type === 'sent' ? senderImgSrc : receiverImgSrc } />
           </MessageUl>)
         }

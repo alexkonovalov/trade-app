@@ -35,9 +35,9 @@ const SentMessageLi = styled(MessageLi)`
 const RecievedMessageLi = styled(MessageLi)`
   flex-direction: row-reverse;
 `
-
-type MessageProps = {
+type ComponentOwnProps = {
   imgSrc?: string;
+  attachedSrc?: string;
   message: string;
   type: messageType;
 };
@@ -46,17 +46,25 @@ export type messageType = 'sent' | 'received';
 
 const IMG_SIZE = 60;
 
-const Message : React.FunctionComponent<MessageProps> = (props : MessageProps) => {
-  const { type, imgSrc, message } = props;
+const Message : React.FunctionComponent<ComponentOwnProps> = (props : ComponentOwnProps) => {
+  const { attachedSrc, type, imgSrc, message } = props;
+
+  const renderAttachment = () => attachedSrc && <div><a href={attachedSrc} download>Attachment</a></div>
 
   switch (type) {
     case 'received': return <RecievedMessageLi>
         {imgSrc && <Img src={imgSrc} width={IMG_SIZE} height={IMG_SIZE} />}
-        <RecievedMessageLiContent>{message}</RecievedMessageLiContent>
+        <RecievedMessageLiContent>
+          <div>{message}</div>
+          { renderAttachment() }
+        </RecievedMessageLiContent>
       </RecievedMessageLi>;
     case 'sent': return <SentMessageLi>
         {imgSrc && <Img src={imgSrc} width={IMG_SIZE} height={IMG_SIZE} />}
-        <SentMessageLiContent>{message}</SentMessageLiContent>
+        <SentMessageLiContent>
+          <div>{message}</div>
+          { renderAttachment() }
+        </SentMessageLiContent>
       </SentMessageLi>;
   }
 }
