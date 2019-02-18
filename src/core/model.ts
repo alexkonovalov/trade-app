@@ -20,8 +20,13 @@ export type Trade = {
 }
 
 export type Message = {
+  key: string;
   content: string;
   attachedSrc?: string;
+}
+
+export type GenericMessage = Message & {
+  type: 'sent' | 'received',
 }
 
 export type TradeMessage = Message & {

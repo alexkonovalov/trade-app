@@ -59,7 +59,7 @@ describe('trades.reducer',() => {
   })
 
   it('should handle AppActions.addMessage', () => {
-    const addedMessage: TradeMessage = {content: 'hey dude', sender: 'buyer' };
+    const addedMessage: TradeMessage = {content: 'hey dude', sender: 'buyer', key: 'foo' };
 
     const inputState: TradesState = { 
       trades: [mockTrade],

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators, Action, Dispatch } from "redux";
+import { bindActionCreators, Action, Dispatch } from 'redux';
 
-import { TradesState, AppState } from '../core/model';
+import { TradesState, AppState, GenericMessage } from '../core/model';
 import { Actions } from '../store/actions';
 import Chat from './presentational/Chat';
 
@@ -22,33 +22,29 @@ const TradeChat: React.FunctionComponent<ComponentOwnProperties & ReturnType<typ
   const { tradeId, chats, viewMode, addMessage, markTradeMessagesAsRead, fetchMessages, trades } = props;
 
   const chat = chats[tradeId];
+  const trade = trades.filter(trade => trade.id === tradeId)[0];
+  const buyerImgSrc = trade.buyerInfo.imgSrc;
 
-  useEffect(() => {
-    if (viewMode === 'seller') {
-      markTradeMessagesAsRead(tradeId)
-    }
-    if (!chats[tradeId]) {
-      fetchMessages(tradeId)
-    }
-  });
-
-  const buyerImgSrc = trades
-    .filter(trade => trade.id === tradeId)
-    .map(trade => trade.buyerInfo.imgSrc)[0];
-
-  const messages = tradeId
-    ? (chat && chat.messages || [])
-      .map<{content: string, type: 'sent' | 'received', attachedSrc?: string}>(tradeMessage => ({ 
-        content: tradeMessage.content,
-        attachedSrc: tradeMessage.attachedSrc,
-        type: tradeMessage.sender === viewMode ?  'sent' : 'received',
-      }))
-    : [];
-
+  const messages = (tradeId && chat && chat.messages || [])
+    .map<GenericMessage>(tradeMessage => ({ 
+      content: tradeMessage.content,
+      attachedSrc: tradeMessage.attachedSrc,
+      key: tradeMessage.key,
+      type: tradeMessage.sender === viewMode ?  'sent' : 'received',
+    }));
+  
   const sendMessage = (content: string) => {
-    addMessage({ tradeId, message: { content, sender: viewMode }});
+    addMessage({ tradeId, message: { content, sender: viewMode, key: `${tradeId}.${messages.length}` }});
   }
 
+  useEffect(() => {
+    if (viewMode === 'seller' && trade.hasUnreadMessage) {
+      markTradeMessagesAsRead(tradeId);
+    }
+    if (!chats[tradeId]) {
+      fetchMessages(tradeId);
+    }
+  });
 
   return (messages && <Chat
     onAddMessage={sendMessage}

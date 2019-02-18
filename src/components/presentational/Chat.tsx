@@ -7,7 +7,8 @@ import {
   InputGroupAddon
 } from 'reactstrap';
 
-import Message, { messageType } from './Message'
+import { GenericMessage } from '../../core/model';
+import Message from './Message'
 
 const MessageUl = styled.ul`
   list-style: none;
@@ -15,7 +16,7 @@ const MessageUl = styled.ul`
 `
 
 type ComponentOwnProperties = {
-  messages: { content: string, type: messageType, attachedSrc?: string }[];
+  messages: GenericMessage[];
   senderImgSrc?: string;
   receiverImgSrc?: string;
   onAddMessage: (messageContent: string) => void;
@@ -37,8 +38,9 @@ const Chat: React.FunctionComponent<ComponentOwnProperties>  = (props) => {
 
   return (
       <div>
-        { messages && messages.map(message => <MessageUl>
-            <Message  type={message.type}
+        { messages && messages.map(message => <MessageUl key={message.key}>
+            <Message
+                      type={message.type}
                       message={message.content}
                       attachedSrc={message.attachedSrc}
                       imgSrc={message.type === 'sent' ? senderImgSrc : receiverImgSrc } />

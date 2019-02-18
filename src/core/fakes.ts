@@ -63,28 +63,28 @@ const sampleTrade4 = {
 
 const chats :{[key: string]: TradeMessage[]} = {
 trade1: [
-  {sender: 'buyer', content: 'tere yo'},
-  {sender: 'seller', content: 'tere 1'},
-  {sender: 'seller', content: 'tere 2'},
-  {sender: 'buyer', content: 'tere yo yo'}
+  {sender: 'buyer', content: 'tere yo', key: 'asdf1'},
+  {sender: 'seller', content: 'tere 1', key: 'asdf2'},
+  {sender: 'seller', content: 'tere 2', key: 'asdf3'},
+  {sender: 'buyer', content: 'tere yo yo', key: 'asdf4'},
 ] ,
 trade3: [
-  {sender: 'buyer', content: 'tere yo'},
-  {sender: 'seller', content: 'tere 1'},
-  {sender: 'seller', content: 'tere 2'},
-  {sender: 'buyer', content: 'tere yo yo'}
+  {sender: 'buyer', content: 'tere yo', key: 'asdf5'},
+  {sender: 'seller', content: 'tere 1', key: 'asd6f'},
+  {sender: 'seller', content: 'tere 2', key: 'asdf7'},
+  {sender: 'buyer', content: 'tere yo yo', key: 'as8df'},
 ],
 trade4: [
-  {sender: 'buyer', content: 'tere yo'},
-  {sender: 'seller', content: 'tere 1'},
-  {sender: 'seller', content: 'tere 2'},
-  {sender: 'buyer', content: 'tere yo yo'}
+  {sender: 'buyer', content: 'tere yo', key: 'asd9f'},
+  {sender: 'seller', content: 'tere 1', key: 'asd66f'},
+  {sender: 'seller', content: 'tere 2', key: 'as00df'},
+  {sender: 'buyer', content: 'tere yo yo', key: 'as22df'},
 ],
 trade2: [
-  {sender: 'buyer', content: 'tere yosss'},
-  {sender: 'buyer', content: 'tere 1sss'},
-  {sender: 'seller', content: 'tere 2ss'},
-  {sender: 'buyer', content: 'tere yo yoss'}
+  {sender: 'buyer', content: 'tere yosss', key: 'asnndf'},
+  {sender: 'buyer', content: 'tere 1sss', key: 'asdddf'},
+  {sender: 'seller', content: 'tere 2ss', key: 'asaadf'},
+  {sender: 'buyer', content: 'tere yo yoss', key: 'aszzzf'},
 ]
 }
 

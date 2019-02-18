@@ -15,5 +15,5 @@ export const mockTrade: Trade = {
 }
 
 export const mockChat : TradeMessage[] = [
-  {sender: 'buyer', content: 'tere'}
+  {sender: 'buyer', content: 'tere', key: 'hhsss222'}
 ]

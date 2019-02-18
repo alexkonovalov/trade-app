@@ -10,7 +10,7 @@ const MessageLi = styled.li`
   display: flex;
 `
 
-const MessageLiContent = styled.p`
+const MessageLiContent = styled.div`
   background-color: #0f0;
   margin: 5px;
   padding: 6px;
@@ -35,14 +35,14 @@ const SentMessageLi = styled(MessageLi)`
 const RecievedMessageLi = styled(MessageLi)`
   flex-direction: row-reverse;
 `
+
 type ComponentOwnProps = {
   imgSrc?: string;
   attachedSrc?: string;
   message: string;
-  type: messageType;
+  type: 'sent' | 'received';
 };
 
-export type messageType = 'sent' | 'received';
 
 const IMG_SIZE = 60;
 

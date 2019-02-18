@@ -1,7 +1,7 @@
 import React from 'react';
 import { ConnectedRouter } from 'connected-react-router'
 import { History } from 'history'
-import { Route, match } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import route from './core/routes';
 
 import {
@@ -13,7 +13,6 @@ import {
   NavLink,
   Container,
   Row,
-  Col
 } from 'reactstrap';
 
 import Trades from './components/Trades'
@@ -38,7 +37,7 @@ const App: React.FunctionComponent<AppProps> = ({ history }) => {
         <ConnectedRouter history={history}>
           <>
           <Container fluid>
-            <Row style={{ 'margin-top': '1rem', 'margin-bottom': '1rem' }}>
+            <Row style={{ 'marginTop': '1rem', 'marginBottom': '1rem' }}>
               <Route path={route.tradeList.path} exact component={Trades} />
               <Route path={route.trade.path} component={Trades} />
             </Row>
