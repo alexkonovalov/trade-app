@@ -1,6 +1,6 @@
-import { appReducer } from './app.reducer'
-import { appInitialState } from './app.reducer'
-import { AppActions } from './app.actions'
+import { appReducer } from './app.reducer';
+import { appInitialState } from './app.reducer';
+import { AppActions } from './app.actions';
 
 const callReducer = (action: AppActions) => appReducer(appInitialState, action)
 

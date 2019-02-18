@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { MessagesResponse, TradesResponse, CoinResponse, TradeStatus, Trade } from "./model";
+import { MessagesResponse, TradesResponse, CoinResponse } from './model';
 import { fakeTrades, fakeMessages } from './fakes'
 
 // const apiKey = '186acfb0';

@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Trade } from '../../core/model'
-import { toBtcString } from '../../core/calc.helpers'
+import { Trade } from '../../core/model';
+import { toBtcString } from '../../core/calc.helpers';
 
 const Img = styled.img`
   border-radius: 40px;

@@ -1,10 +1,4 @@
-import axios from "axios";
-
-import { MessagesResponse, TradesResponse, TradeMessage, CoinResponse, TradeStatus, Trade } from "./model";
-
-const getMessagesEndpoint = (tradeId: string) => `https://my.api.mockaroo.com/trades/${tradeId}/messages.json`;
-const COIN_PRICE_ENDPOINT = "https://api.coindesk.com/v1/bpi/currentprice/USD.json"
-const apiKey = '186acfb0';
+import { MessagesResponse, TradesResponse, TradeMessage, CoinResponse, TradeStatus, Trade } from './model';
 
 const sampleTrade = {
   id: 'trade1',

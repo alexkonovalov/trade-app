@@ -1,5 +1,5 @@
 import { TradesState, TradeStatus } from '../../core/model';
-import { Reducer } from 'redux'
+import { Reducer } from 'redux';
 import { TradesActions, TRADES_ACTION_KEYS } from './trades.actions';
 
 export const initalTradeState: TradesState = {

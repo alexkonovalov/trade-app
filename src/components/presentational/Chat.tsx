@@ -8,7 +8,7 @@ import {
 } from 'reactstrap';
 
 import { GenericMessage } from '../../core/model';
-import Message from './Message'
+import Message from './Message';
 
 const MessageUl = styled.ul`
   list-style: none;

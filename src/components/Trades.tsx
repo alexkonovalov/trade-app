@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators, Action, Dispatch } from "redux";
+import { bindActionCreators, Action, Dispatch } from 'redux';
 import { Col, Alert } from 'reactstrap';
 
 import { TradesState, AppState } from '../core/model'
 import { Redirect } from 'react-router-dom'
-import routes, { ITradeRouteParams } from '../core/routes'
+import routes, { TradeRouteParams } from '../core/routes'
 import { getRouteParams, RouteProps } from '../core/routes.helpers'
 import { Actions } from '../store/actions';
 import TradeDetails from './presentational/TradeDetails';
@@ -21,7 +21,7 @@ const mapStateToProps = (state: { tradeState: TradesState, appState: AppState })
 });
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators(Actions, dispatch);
 
-const Trades : React.FunctionComponent<ReturnType<typeof mapStateToProps> & RouteProps<ITradeRouteParams>> = (props) => {
+const Trades : React.FunctionComponent<ReturnType<typeof mapStateToProps> & RouteProps<TradeRouteParams>> = (props) => {
 
   const { appError, items, btcPrice, viewAs } = props
   const { tradeId : selectedTradeId, filter } = getRouteParams(props)
@@ -37,13 +37,13 @@ const Trades : React.FunctionComponent<ReturnType<typeof mapStateToProps> & Rout
   }
 
   return <>
-    <Col xs="4">
+    <Col xs='4'>
       <TradeList filter={filter} selectedTradeId={selectedTradeId} />
     </Col>
-    <Col xs="4">
+    <Col xs='4'>
       { selectedTradeId && <TradeChat tradeId={selectedTradeId} /> }
     </Col>
-    <Col xs="4">
+    <Col xs='4'>
       <UserActions tradeId={selectedTradeId} showTradeActions={viewAs === 'seller'}/>
       { selectedTrade && viewAs === 'seller' && <TradeDetails trade={selectedTrade} coinPrice={btcPrice}/> }
     </Col>

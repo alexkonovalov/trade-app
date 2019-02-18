@@ -9,7 +9,7 @@ import {
   CardTitle,
   CardSubtitle,
   CardHeader
-} from "reactstrap";
+} from 'reactstrap';
 
 import { Trade } from '../../core/model'
 import { toBtcString } from '../../core/calc.helpers'

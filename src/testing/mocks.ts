@@ -1,4 +1,4 @@
-import { Trade, TradeStatus, TradeMessage, Chats } from '../core/model'
+import { Trade, TradeStatus, TradeMessage, Chats } from '../core/model';
 
 export const mockTrade: Trade = {
   id: 'trade1',
@@ -12,8 +12,8 @@ export const mockTrade: Trade = {
     rating: { positive: 33, negative: -50 },
     imgSrc: 'https://img.com/tere.jpg'
   }
-}
+};
 
 export const mockChat : TradeMessage[] = [
   {sender: 'buyer', content: 'tere', key: 'hhsss222'}
-]
+];

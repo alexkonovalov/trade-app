@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConnectedRouter } from 'connected-react-router'
+import { ConnectedRouter } from 'connected-react-router';
 import { History } from 'history'
 import { Route } from 'react-router-dom';
 import route from './core/routes';
@@ -15,7 +15,7 @@ import {
   Row,
 } from 'reactstrap';
 
-import Trades from './components/Trades'
+import Trades from './components/Trades';
 
 interface AppProps {
   history: History;
@@ -24,12 +24,12 @@ interface AppProps {
 const App: React.FunctionComponent<AppProps> = ({ history }) => {
   return (
       <>
-        <Navbar color="dark" dark expand="md" key="nav">
-            <NavbarBrand href="/">react-ts-bs-redux-starter</NavbarBrand>
+        <Navbar color='dark' dark expand='md' key='nav'>
+            <NavbarBrand href='/'>btc-trade-app</NavbarBrand>
             <Collapse navbar>
               <Nav navbar>
                 <NavItem>
-                  <NavLink href="https://github.com/alexkonovalov">Github</NavLink>
+                  <NavLink href='https://github.com/alexkonovalov'>Github</NavLink>
                 </NavItem>
               </Nav>
             </Collapse>

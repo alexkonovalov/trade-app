@@ -31,7 +31,7 @@ const UserActions: React.FunctionComponent<ComponentOwnProps & ReturnType<typeof
         <ActionButton color='success' onClick={() => releaseTrade(tradeId)} >
           Release Bitcoins
         </ActionButton>
-        <ActionButton color="danger" onClick={() => deleteTrade(tradeId)}>
+        <ActionButton color='danger' onClick={() => deleteTrade(tradeId)}>
           Cancel Trade
         </ActionButton>
       </>

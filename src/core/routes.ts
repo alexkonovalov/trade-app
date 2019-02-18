@@ -7,11 +7,11 @@ const route = {
     path: '/:filter/:tradeId',
     getPath: (filter: 'notseen' | 'paid', tradeId: string) => `/${filter}/${tradeId}`
   }
-}
+};
 
-export type ITradeRouteParams = {
+export type TradeRouteParams = {
   tradeId: string,
   filter: 'notseen' | 'paid'
-}
+};
 
-export default route
+export default route;

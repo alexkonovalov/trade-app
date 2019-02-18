@@ -45,7 +45,7 @@ export const ThunkActions = (() => {
     )
   }
 
-  return { fetchTrades, fetchMessages, getCoinPrice, pollCoinPrice }
-})()
+  return { fetchTrades, fetchMessages, getCoinPrice, pollCoinPrice };
+})();
 
-export type ThunkActions = ActionsUnion<typeof ThunkActions>
+export type ThunkActions = ActionsUnion<typeof ThunkActions>;

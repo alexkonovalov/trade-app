@@ -12,7 +12,7 @@ const configureStore = (initialState={}) => {
    initialState,
    applyMiddleware(thunk)
  );
-}
+};
 
 export default configureStore as (initialState?: {}) => 
   ReturnType<typeof configureStore> & 

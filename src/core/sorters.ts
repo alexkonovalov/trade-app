@@ -1,4 +1,4 @@
-import { Trade } from './model'
+import { Trade } from './model';
 
 export const byPaidFirst = (a: Trade, b: Trade) => {
   switch (b.status) {

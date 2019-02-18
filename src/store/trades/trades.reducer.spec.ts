@@ -1,8 +1,8 @@
-import { tradesReducer } from './trades.reducer'
-import { initalTradeState } from './trades.reducer'
-import { TradesActions } from './trades.actions'
-import { TradesState, Trade, TradeMessage } from '../../core/model'
-import { mockTrade, mockChat } from '../../testing/mocks'
+import { tradesReducer } from './trades.reducer';
+import { initalTradeState } from './trades.reducer';
+import { TradesActions } from './trades.actions';;
+import { TradesState, Trade, TradeMessage } from '../../core/model';
+import { mockTrade, mockChat } from '../../testing/mocks';
 
 describe('trades.reducer',() => {
   it('should handle AppActions.addTrades', () => {

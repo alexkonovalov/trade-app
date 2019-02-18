@@ -1,5 +1,5 @@
 import { AppState } from '../../core/model';
-import { Reducer } from 'redux'
+import { Reducer } from 'redux';
 import { AppActions, APP_ACTION_KEYS } from './app.actions';
 
 export const appInitialState: AppState = {
