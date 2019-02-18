@@ -77,7 +77,7 @@ const TradeDetails: React.FunctionComponent<ComponentOwnProperties> = (props) =>
     <TradePropertyItem name={'Payment Method'} value={trade.paymentMethod} />
     <TradePropertyItem name={'Price(USD)'} value={`${trade.price}`} />
     <TradePropertyItem name={'Price(BTC)'} value={`${coinPrice && toBtcString(trade.price, coinPrice) }`} />
-    <TradePropertyItem name={'Hash'} value={trade.id} />
+    <TradePropertyItem name={'Hash'} value={trade.id.slice(0, 5)} />
   </>
 }
 

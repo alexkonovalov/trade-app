@@ -1,7 +1,7 @@
 import React from 'react';
 import { ConnectedRouter } from 'connected-react-router';
 import { History } from 'history'
-import { Route } from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import route from './core/routes';
 
 import {
@@ -38,8 +38,11 @@ const App: React.FunctionComponent<AppProps> = ({ history }) => {
           <>
           <Container fluid>
             <Row style={{ 'marginTop': '1rem', 'marginBottom': '1rem' }}>
+            <Switch>
+              <Route path={'/'} exact><Redirect to={'/notseen'}/></Route>
               <Route path={route.tradeList.path} exact component={Trades} />
               <Route path={route.trade.path} component={Trades} />
+            </Switch>
             </Row>
           </Container>
           </>
