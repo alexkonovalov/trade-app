@@ -37,7 +37,7 @@ const RecievedMessageLi = styled(MessageLi)`
 `
 
 type MessageProps = {
-  imgSrc: string;
+  imgSrc?: string;
   message: string;
   type: messageType;
 };
@@ -51,11 +51,11 @@ const Message : React.FunctionComponent<MessageProps> = (props : MessageProps) =
 
   switch (type) {
     case 'received': return <RecievedMessageLi>
-        <Img src={imgSrc} width={IMG_SIZE} height={IMG_SIZE} />
+        {imgSrc && <Img src={imgSrc} width={IMG_SIZE} height={IMG_SIZE} />}
         <RecievedMessageLiContent>{message}</RecievedMessageLiContent>
       </RecievedMessageLi>;
     case 'sent': return <SentMessageLi>
-        <Img src={imgSrc} width={IMG_SIZE} height={IMG_SIZE} />
+        {imgSrc && <Img src={imgSrc} width={IMG_SIZE} height={IMG_SIZE} />}
         <SentMessageLiContent>{message}</SentMessageLiContent>
       </SentMessageLi>;
   }

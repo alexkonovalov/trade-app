@@ -1,32 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
-import TradeInfo from './presentational/TradeInfo'
-import {
-  Collapse,
-  Navbar,
-  Button,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Card, CardImg, CardText, CardBody,
-  CardTitle, CardSubtitle
-} from 'reactstrap';
+import { Nav, NavItem, NavLink } from 'reactstrap';
 import { bindActionCreators, Action, Dispatch } from 'redux';
-import { Trade, TradeStatus, TradesState, AppState } from '../core/model'
+import { Trade, TradesState, AppState } from '../core/model'
 import { byUnseenMessageFirst, byPaidFirst, byIsNotReleased } from '../core/sorters'
 import route from '../core/routes'
 import { Actions } from '../store/actions';
-
-type ViewTrade = Trade & { isSelected: boolean };
+import TradeInfo from './presentational/TradeInfo'
 
 const mapStateToProps = (state: { tradeState: TradesState, appState: AppState }) => ({
   trades : state.tradeState.trades,
@@ -51,16 +33,13 @@ const TradeList : React.FunctionComponent<ComponentOwnProps & ReturnType<typeof 
     }
   }
 
-  const shownTrades: Array<ViewTrade> = trades
+  const shownTrades = trades
     .sort((a, b) => byIsNotReleased(a,b) || getSortByFunction()(a,b))
-    .map((trade) => ({
-      ...trade,
-      isSelected: trade.id === selectedTradeId
-    }));
+    .map<[Trade, boolean]>((trade) => [trade, trade.id === selectedTradeId]);
 
   return (
-      <div>
-          <Nav tabs>
+      <>
+        <Nav tabs>
           <NavItem>
             <Link to={route.tradeList.getPath('notseen')}>
               <NavLink className={classnames({ active: filter === 'notseen' })}>
@@ -68,7 +47,7 @@ const TradeList : React.FunctionComponent<ComponentOwnProps & ReturnType<typeof 
               </NavLink>
             </Link>
           </NavItem>
-          <NavItem>
+          <NavItem >
             <Link to={route.tradeList.getPath('paid')}>
               <NavLink className={classnames({ active: filter === 'paid' })}>
                 Paid 
@@ -76,13 +55,13 @@ const TradeList : React.FunctionComponent<ComponentOwnProps & ReturnType<typeof 
             </Link>
           </NavItem>
         </Nav>
-          { shownTrades.map(trade => <TradeInfo
+          { shownTrades.map(([trade, isSelected])=> <TradeInfo
               trade={trade}
               btcPrice={bitcoinPrice}
-              isSelected={trade.isSelected}
+              isSelected={isSelected}
               linkPath={route.trade.getPath(filter, trade.id)} />
           )}
-      </div>
+      </>
     );
   }
 

@@ -1,9 +1,22 @@
-import { TradesState } from '../../core/model';
+import { TradesState, TradeStatus } from '../../core/model';
 import { Reducer } from 'redux'
 import { TradesActions, TRADES_ACTION_KEYS } from './trades.actions';
 
 export const initalTradeState: TradesState = {
-  trades: [],
+  trades: [ {
+  id: 'trade1',
+  status: 'unpaid' as TradeStatus,
+  price: 300,
+  isReleased: false,
+  paymentMethod: 'PayPal 1',
+  hasUnreadMessage: false,
+  buyerInfo: {
+    name: 'Harshampur Maharaji',
+    rating: { positive: 33, negative: -50 },
+    imgSrc: 'https://img.com/tere.jpg'
+  }
+}
+  ],
   chats: {}
 };
 

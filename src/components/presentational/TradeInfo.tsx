@@ -8,6 +8,7 @@ import {
   CardBody,
   CardTitle,
   CardSubtitle,
+  CardHeader
 } from "reactstrap";
 
 import { Trade } from '../../core/model'
@@ -16,6 +17,7 @@ import { toBtcString } from '../../core/calc.helpers'
 const Dot = styled.div`
   height: 15px;
   width: 15px;
+  margin-right: 15px;
   background-color: #6c757d;
   border-radius: 50%;
   display: inline-block;
@@ -35,15 +37,19 @@ type TradeInfoProps = {
 const TradeInfo : React.FunctionComponent<TradeInfoProps> = (props : TradeInfoProps) => {
   const { trade, btcPrice, isSelected, linkPath } = props 
 
-  return <Card {...isSelected && { color: "primary" }} > 
+  return <Card {...isSelected && { inverse: true, color: 'primary' }} >
+  <CardHeader>
+    {trade.hasUnreadMessage ? <UnreadMessageDot /> : <Dot />}
+    {trade.paymentMethod}
+    
+  </CardHeader>
   <CardBody>
-    <CardSubtitle>{trade.buyerInfo.name} is buying</CardSubtitle>
-    <CardTitle><b>
-      {trade.paymentMethod}</b>
-      {trade.hasUnreadMessage ? <UnreadMessageDot /> : <Dot />}
-      </CardTitle>
+    <CardTitle><b>{trade.buyerInfo.name}</b> is buying </CardTitle>
     <CardSubtitle>{trade.price} USD ({btcPrice && toBtcString(trade.price, btcPrice) } BTC)</CardSubtitle>
-    <Link to={linkPath}><Button>Select</Button></Link>
+    <CardTitle>{trade.isReleased && <Badge>Released</Badge>}
+    {trade.status === 'paid' && <Badge color='success'>Paid</Badge>}
+    </CardTitle>
+    <Link to={linkPath}><Button >Select</Button></Link>
   </CardBody>
 </Card>
 }

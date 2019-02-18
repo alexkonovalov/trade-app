@@ -16,13 +16,15 @@ const MessageUl = styled.ul`
 
 type ComponentOwnProperties = {
   messages: { content: string, type: messageType }[];
+  senderImgSrc?: string;
+  receiverImgSrc?: string;
   onAddMessage: (messageContent: string) => void;
 };
 
 const Chat: React.FunctionComponent<ComponentOwnProperties>  = (props) => {
 
   const [ newMessage, setNewMessage] = useState('');
-  const { messages, onAddMessage } = props;
+  const { messages, onAddMessage, senderImgSrc, receiverImgSrc } = props;
 
   const send = () => {
     setNewMessage('');
@@ -36,9 +38,9 @@ const Chat: React.FunctionComponent<ComponentOwnProperties>  = (props) => {
   return (
       <div>
         { messages && messages.map(message => <MessageUl>
-            <Message  type={message.type }
+            <Message  type={message.type}
                       message={message.content}
-                      imgSrc={'https://pbs.twimg.com/profile_images/585938291330912256/5Z02N-AP_400x400.jpg'} />
+                      imgSrc={message.type === 'sent' ? senderImgSrc : receiverImgSrc } />
           </MessageUl>)
         }
         <InputGroup>
