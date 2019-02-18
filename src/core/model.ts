@@ -35,12 +35,15 @@ export type Chats = {
   | undefined
 }
 
-export interface State {
+export type TradesState = {
   trades: Trade[];
+  chats: Chats;
+}
+
+export type AppState = {
   error: string | undefined;
   viewAs: 'buyer' | 'seller';
   coinPrice: number | undefined,
-  chats: Chats;
 }
 
 export type TradesResponse = {

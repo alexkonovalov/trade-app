@@ -1,47 +1,34 @@
-import { State, TradeStatus, TradeMessage } from "../core/model";
+import { TradesState } from '../../core/model';
 import { Reducer } from 'redux'
-import { ReduxActions, ACTION_KEYS } from "./actions";
+import { TradesActions, TRADES_ACTION_KEYS } from './trades.actions';
 
-export const initalState: State = {
+export const initalTradeState: TradesState = {
   trades: [],
-  error: undefined,
-  viewAs: 'seller',
-  coinPrice : undefined,
   chats: {}
 };
 
-export const reducer : Reducer<State, ReduxActions> = (state: State = initalState, action: ReduxActions ) => {
+export const tradesReducer : Reducer<TradesState, TradesActions> = (state: TradesState = initalTradeState, action: TradesActions ) => {
   switch (action.type) {
-    case (ACTION_KEYS.UPDATE_COIN_PRICE) : {
-      const newState = {...state, coinPrice: action.payload}
-      return newState;
-    }
-    case (ACTION_KEYS.MARK_TRADE_MESSAGES_AS_READ) : {
+    case (TRADES_ACTION_KEYS.MARK_TRADE_MESSAGES_AS_READ) : {
       return { ...state, trades: state.trades.map(trade =>
         trade.id === action.payload ? { ...trade, hasUnreadMessage: false } : trade)
       }
     }
-    case (ACTION_KEYS.ADD_ITEM) : {
+    case (TRADES_ACTION_KEYS.ADD_ITEM) : {
       return {...state, trades: action.payload };
     }
-    case (ACTION_KEYS.DELETE_TRADE) : {
+    case (TRADES_ACTION_KEYS.DELETE_TRADE) : {
       return {...state, trades: [
         ...state.trades.filter(trade => trade.id !== action.payload)
       ]};
     }
-    case (ACTION_KEYS.RELEASE_TRADE) : {
+    case (TRADES_ACTION_KEYS.RELEASE_TRADE) : {
       return { ...state, trades: state.trades.map(
         trade => trade.id === action.payload ? { ...trade, isReleased: true } : trade
         )
       }
     }
-    case (ACTION_KEYS.SWITCH_VIEW) : {
-      return {...state, viewAs: state.viewAs === 'buyer' ? 'seller' : 'buyer' }
-    }
-    case (ACTION_KEYS.SET_ERROR) : {
-      return {...state, error: action.payload };
-    }
-    case (ACTION_KEYS.MARK_CHAT_AS_FETCHING) : {
+    case (TRADES_ACTION_KEYS.MARK_CHAT_AS_FETCHING) : {
       const chat = state.chats[action.payload]
 
       return {...state,
@@ -53,7 +40,7 @@ export const reducer : Reducer<State, ReduxActions> = (state: State = initalStat
         }
       };
     }
-    case (ACTION_KEYS.MARK_CHAT_AS_FETCHED) : {
+    case (TRADES_ACTION_KEYS.MARK_CHAT_AS_FETCHED) : {
       const chat = state.chats[action.payload]
 
       return {...state,
@@ -65,7 +52,7 @@ export const reducer : Reducer<State, ReduxActions> = (state: State = initalStat
         }
       };
     }
-    case (ACTION_KEYS.UPDATE_CHAT) : {
+    case (TRADES_ACTION_KEYS.UPDATE_CHAT) : {
       const { tradeId, messages } = action.payload
       return { ...state,
         chats: { ...state.chats,
@@ -73,7 +60,7 @@ export const reducer : Reducer<State, ReduxActions> = (state: State = initalStat
         }
       }
     }
-    case (ACTION_KEYS.ADD_MESSAGE) : {
+    case (TRADES_ACTION_KEYS.ADD_MESSAGE) : {
       const chat = state.chats[action.payload.tradeId]
 
       return {...state,
@@ -92,14 +79,4 @@ export const reducer : Reducer<State, ReduxActions> = (state: State = initalStat
     }
     default: return state;
   }
-}; 
-
-
-import { combineReducers } from 'redux';
-import { History } from 'history'
-import { RouterState, connectRouter } from 'connected-react-router'
-
- export const createRootReducer = (history: History) => combineReducers({
-  reducer,
-  router: connectRouter(history)
-});
+};

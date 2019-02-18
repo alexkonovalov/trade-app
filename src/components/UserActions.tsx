@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Button } from 'reactstrap'
 import { bindActionCreators, Action, Dispatch } from 'redux';
-import { State } from '../core/model'
+import { AppState } from '../core/model'
 import { Actions } from '../store/actions';
 
-const mapStateToProps = (state: { reducer: State }) => ({ viewMode : state.reducer.viewAs });
+const mapStateToProps = (state: { appState: AppState }) => ({ viewMode : state.appState.viewAs });
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators(Actions, dispatch);
 
 const ActionButton = styled(Button)`

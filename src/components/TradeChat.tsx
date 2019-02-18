@@ -2,15 +2,16 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Action, Dispatch } from "redux";
 
-import { State } from '../core/model';
+import { TradesState, AppState } from '../core/model';
 import { Actions } from '../store/actions';
 import Chat from './presentational/Chat';
 
-const mapStateToProps = (state: { reducer: State }) => ({ 
-  trades : state.reducer.trades,
-  viewMode: state.reducer.viewAs,
-  chats : state.reducer.chats
- });
+const mapStateToProps = (state: { tradeState: TradesState, appState: AppState }) => ({ 
+  trades : state.tradeState.trades,
+  viewMode: state.appState.viewAs,
+  chats : state.tradeState.chats
+});
+
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators(Actions, dispatch);
 
 type ComponentOwnProperties = {

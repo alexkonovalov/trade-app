@@ -21,16 +21,16 @@ import {
   CardTitle, CardSubtitle
 } from 'reactstrap';
 import { bindActionCreators, Action, Dispatch } from 'redux';
-import { Trade, TradeStatus, State } from '../core/model'
+import { Trade, TradeStatus, TradesState, AppState } from '../core/model'
 import { byUnseenMessageFirst, byPaidFirst, byIsNotReleased } from '../core/sorters'
 import route from '../core/routes'
 import { Actions } from '../store/actions';
 
 type ViewTrade = Trade & { isSelected: boolean };
 
-const mapStateToProps = (state: { reducer: State }) => ({
-  items : state.reducer.trades,
-  bitcoinPrice: state.reducer.coinPrice
+const mapStateToProps = (state: { tradeState: TradesState, appState: AppState }) => ({
+  trades : state.tradeState.trades,
+  bitcoinPrice: state.appState.coinPrice
 });
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators(Actions, dispatch);
 
@@ -42,7 +42,7 @@ type ComponentOwnProps = {
 const TradeList : React.FunctionComponent<ComponentOwnProps & ReturnType<typeof mapStateToProps> & typeof Actions> =
   (props) => {
 
-  const { items, selectedTradeId, filter, bitcoinPrice } = props;
+  const { trades, selectedTradeId, filter, bitcoinPrice } = props;
 
   const getSortByFunction = () => {
     switch (filter) {
@@ -51,7 +51,7 @@ const TradeList : React.FunctionComponent<ComponentOwnProps & ReturnType<typeof 
     }
   }
 
-  const shownTrades: Array<ViewTrade> = items
+  const shownTrades: Array<ViewTrade> = trades
     .sort((a, b) => byIsNotReleased(a,b) || getSortByFunction()(a,b))
     .map((trade) => ({
       ...trade,
@@ -85,6 +85,5 @@ const TradeList : React.FunctionComponent<ComponentOwnProps & ReturnType<typeof 
       </div>
     );
   }
-  
-  
+
 export default connect(mapStateToProps, mapDispatchToProps)(TradeList);

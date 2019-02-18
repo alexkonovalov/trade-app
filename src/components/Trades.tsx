@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Action, Dispatch } from "redux";
 import { Col, Alert } from 'reactstrap';
 
-import { State } from '../core/model'
+import { TradesState, AppState } from '../core/model'
 import { Redirect } from 'react-router-dom'
 import routes, { ITradeRouteParams } from '../core/routes'
 import { getRouteParams, RouteProps } from '../core/routes.helpers'
@@ -13,10 +13,10 @@ import TradeList from './TradeList';
 import TradeChat from './TradeChat';
 import UserActions from './UserActions';
 
-const mapStateToProps = (state: { reducer: State }) => ({
-  items : state.reducer.trades,
-  btcPrice: state.reducer.coinPrice,
-  appError: state.reducer.error
+const mapStateToProps = (state: { tradeState: TradesState, appState: AppState }) => ({
+  items : state.tradeState.trades,
+  btcPrice: state.appState.coinPrice,
+  appError: state.appState.error
 });
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators(Actions, dispatch);
 
