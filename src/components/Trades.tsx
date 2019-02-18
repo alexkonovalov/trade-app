@@ -16,13 +16,14 @@ import UserActions from './UserActions';
 const mapStateToProps = (state: { tradeState: TradesState, appState: AppState }) => ({
   items : state.tradeState.trades,
   btcPrice: state.appState.coinPrice,
+  viewAs: state.appState.viewAs,
   appError: state.appState.error
 });
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators(Actions, dispatch);
 
 const Trades : React.FunctionComponent<ReturnType<typeof mapStateToProps> & RouteProps<ITradeRouteParams>> = (props) => {
 
-  const { appError, items, btcPrice  } = props
+  const { appError, items, btcPrice, viewAs } = props
   const { tradeId : selectedTradeId, filter } = getRouteParams(props)
 
   const selectedTrade = selectedTradeId && items
@@ -43,8 +44,8 @@ const Trades : React.FunctionComponent<ReturnType<typeof mapStateToProps> & Rout
       { selectedTradeId && <TradeChat tradeId={selectedTradeId} /> }
     </Col>
     <Col xs="4">
-      <UserActions tradeId={selectedTradeId} />
-      { selectedTrade && <TradeDetails trade={selectedTrade} coinPrice={btcPrice}/> }
+      <UserActions tradeId={selectedTradeId} showTradeActions={viewAs === 'seller'}/>
+      { selectedTrade && viewAs === 'seller' && <TradeDetails trade={selectedTrade} coinPrice={btcPrice}/> }
     </Col>
   </>
 }

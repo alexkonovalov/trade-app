@@ -17,16 +17,17 @@ const ActionButton = styled(Button)`
 
 type ComponentOwnProps = {
   tradeId: string,
+  showTradeActions: boolean
 }
 
 const UserActions: React.FunctionComponent<ComponentOwnProps & ReturnType<typeof mapStateToProps> & typeof Actions> = (props) => {
-  const { tradeId, viewMode, switchView, deleteTrade, releaseTrade } = props;
+  const { tradeId, viewMode, switchView, deleteTrade, releaseTrade, showTradeActions } = props;
 
   return <>
     <ActionButton color='primary' onClick={switchView}>
       Switch to {viewMode === 'buyer' ? 'Seller' : 'Buyer'}'s View
     </ActionButton>
-    { tradeId && <>
+    { tradeId && showTradeActions && <>
         <ActionButton color='success' onClick={() => releaseTrade(tradeId)} >
           Release Bitcoins
         </ActionButton>

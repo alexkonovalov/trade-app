@@ -28,6 +28,9 @@ const Chat: React.FunctionComponent<ComponentOwnProperties>  = (props) => {
   const { messages, onAddMessage, senderImgSrc, receiverImgSrc } = props;
 
   const send = () => {
+    if(!newMessage) {
+      return;
+    }
     setNewMessage('');
     onAddMessage(newMessage);
   }
