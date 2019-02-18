@@ -1,31 +1,34 @@
-import { TradesState, TradeStatus } from '../../core/model';
+import { TradesState, TradeStatus, Chat, TradeMessage, Trade } from '../../core/model';
 import { Reducer } from 'redux';
 import { TradesActions, TRADES_ACTION_KEYS } from './trades.actions';
 
 export const initalTradeState: TradesState = {
-  trades: [ {
-  id: 'trade1',
-  status: 'unpaid' as TradeStatus,
-  price: 300,
-  isReleased: false,
-  paymentMethod: 'PayPal 1',
-  hasUnreadMessage: false,
-  buyerInfo: {
-    name: 'Harshampur Maharaji',
-    rating: { positive: 33, negative: -50 },
-    imgSrc: 'https://img.com/tere.jpg'
-  }
-}
-  ],
+  trades: [],
   chats: {}
 };
+
+const updateChat = (state: TradesState, tradeId: string, newChat: Chat) => {
+  const chat = state.chats[tradeId]
+  return {...state,
+    chats: { ...state.chats,
+      [tradeId]: {
+        ...chat,
+        ...newChat
+      }
+    }
+  };
+}
+
+const markTradeUnreadStatus = (trades: Trade[], tradeId: string, isUnread: boolean) => {
+  return trades.map(trade =>
+    trade.id === tradeId ? { ...trade, hasUnreadMessage: isUnread } : trade
+  )
+}
 
 export const tradesReducer : Reducer<TradesState, TradesActions> = (state: TradesState = initalTradeState, action: TradesActions ) => {
   switch (action.type) {
     case (TRADES_ACTION_KEYS.MARK_TRADE_MESSAGES_AS_READ) : {
-      return { ...state, trades: state.trades.map(trade =>
-        trade.id === action.payload ? { ...trade, hasUnreadMessage: false } : trade)
-      }
+      return { ...state, trades: markTradeUnreadStatus(state.trades, action.payload, false) };
     }
     case (TRADES_ACTION_KEYS.ADD_ITEM) : {
       return {...state, trades: action.payload };
@@ -39,54 +42,28 @@ export const tradesReducer : Reducer<TradesState, TradesActions> = (state: Trade
       return { ...state, trades: state.trades.map(
         trade => trade.id === action.payload ? { ...trade, isReleased: true } : trade
         )
-      }
+      };
     }
     case (TRADES_ACTION_KEYS.MARK_CHAT_AS_FETCHING) : {
-      const chat = state.chats[action.payload]
-
-      return {...state,
-        chats: { ...state.chats,
-          [action.payload]: {
-            ...chat,
-            isFetching: true
-          }
-        }
-      };
+      return updateChat(state, action.payload, { isFetching: true });
     }
     case (TRADES_ACTION_KEYS.MARK_CHAT_AS_FETCHED) : {
-      const chat = state.chats[action.payload]
-
-      return {...state,
-        chats: { ...state.chats,
-          [action.payload]: {
-            ...chat,
-            isFetching: false
-          }
-        }
-      };
+      return updateChat(state, action.payload, { isFetching: false });
     }
     case (TRADES_ACTION_KEYS.UPDATE_CHAT) : {
-      const { tradeId, messages } = action.payload
-      return { ...state,
-        chats: { ...state.chats,
-          [tradeId] : {...state.chats[tradeId], messages }
-        }
-      }
+      const { tradeId, messages } = action.payload;
+      return updateChat(state, tradeId, { messages });
     }
     case (TRADES_ACTION_KEYS.ADD_MESSAGE) : {
-      const chat = state.chats[action.payload.tradeId]
+      const { tradeId, message } = action.payload;
 
-      return {...state,
-        chats: { ...state.chats,
-          [action.payload.tradeId]:{
-            ...chat,
-            messages: [ ...chat && chat.messages || [], action.payload.message ]
-          }
-        },
+      const chat = state.chats[tradeId];
+      const messages = [...chat && chat.messages || [], message];
+
+      return {
+        ...updateChat(state, tradeId, { messages }),
         ...action.payload.message.sender === 'buyer' ? {
-          trades: state.trades.map(trade =>
-            trade.id === action.payload.tradeId ? { ...trade, hasUnreadMessage: true } : trade
-          )
+          trades: markTradeUnreadStatus(state.trades, tradeId, true)
         } : {}
       };
     }

@@ -33,12 +33,13 @@ export type TradeMessage = Message & {
   sender: 'buyer' | 'seller';
 }
 
+export type Chat = {
+  messages?: TradeMessage[],
+  isFetching?: boolean
+} | undefined
+
 export type Chats = {
-  [tradeId: string] : {
-    messages?: TradeMessage[],
-    isFetching?: boolean
-  }
-  | undefined
+  [tradeId: string] : Chat
 }
 
 export type TradesState = {
