@@ -11,14 +11,14 @@ const COIN_PRICE_ENDPOINT = 'https://api.coindesk.com/v1/bpi/currentprice/USD.js
 
 const client = {
   fetchTrades: async () => {
-    const response : TradesResponse = // await axios.get(`${TRADES_ENDPOINT}`, {headers: {'X-API-Key': apiKey}})
-        await fakeTrades
+    const response : TradesResponse = await axios.get(`${TRADES_ENDPOINT}`, {headers: {'X-API-Key': apiKey}})
+       // await fakeTrades
     return response.data
   },
   fetchMessages: async (tradeId: string) => { 
-    //const response: MessagesResponse = await axios
-    //.get(`${getMessagesEndpoint(tradeId)}`, {headers: {'X-API-Key': apiKey}})
-    const response: MessagesResponse = await fakeMessages(tradeId)
+    const response: MessagesResponse = await axios
+    .get(`${getMessagesEndpoint(tradeId)}`, {headers: {'X-API-Key': apiKey}})
+  //  const response: MessagesResponse = await fakeMessages(tradeId)
     return response.data
   },
   getCoinPrice: async () => {
